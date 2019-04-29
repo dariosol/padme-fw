@@ -172,6 +172,29 @@ void SACReconstruction::ProcessEvent(TMCVEvent* tEvent, TMCEvent* tMCEvent)
   }
 }
 
+//CT first attempt of calibration
+
+void SACReconstruction::ProcessEvent(TRawEvent* rawEv){
+  PadmeVReconstruction::BuildHits(rawEv);
+  if(fChannelCalibration) fChannelCalibration->ReadCalibrationConstants(GetRecoHits());
+  //ReconstructBeam();
+  //TargetCalibration* calSvc = (TargetCalibration*)fChannelCalibration;
+  //if(fChannelCalibration) calSvc->PerformBeamCalibration(getRecoBeam());
+  //RetrieveSignalFitParams();
+  AnalyzeEvent(rawEv);
+}
+void SACReconstruction::ProcessEvent(TRecoVObject* recoObj, TRecoEvent* tRecoEvent){
+
+  PadmeVReconstruction::ReadHits(recoObj,tRecoEvent);
+  //std::cout<<this->GetName()<<"::ProcessEvent  ........... Beam reconstructed "<<std::endl;
+  //TargetCalibration* calSvc = (TargetCalibration*)fChannelCalibration;
+  //if(fChannelCalibration) calSvc->PerformBeamCalibration(getRecoBeam());
+
+  //RetrieveSignalFitParams();
+  //std::cout<<this->GetName()<<"::ProcessEvent  ........... Fit Beam reconstructed "<<std::endl;
+}
+
+
 // void SACReconstruction::EndProcessing()
 // {;}
 
@@ -362,7 +385,7 @@ void SACReconstruction::AnalyzeEvent(TRawEvent* rawEv){
 
   UChar_t nBoards = rawEv->GetNADCBoards();
   
-  for(int i = 0;i<25;i++) {
+  for(int i = 0;i<50;i++) { //Andre's correction
     ECh[i] = 0.;
   }
   
@@ -388,7 +411,7 @@ void SACReconstruction::AnalyzeEvent(TRawEvent* rawEv){
     //    votes[(Int_t)Time]++;
     // ESums[(Int_t)Time]+=Hits[iHit1]->GetEnergy();
   }
-  GetHisto("SACQTot") -> Fill(Energy);
+  GetHisto("SACQTot") -> Fill(Energy); //CT Here I'm filling a charge histogram with energy!
   for(int hh=0;hh<1000;hh++){
     if(votes[hh]>1.){ 
       //  std::cout<<" "<<hh<<" "<<votes[hh]<<std::endl;

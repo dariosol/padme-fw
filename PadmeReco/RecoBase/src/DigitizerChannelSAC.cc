@@ -197,7 +197,7 @@ Double_t DigitizerChannelSAC::CalcChaTime(std::vector<TRecoVHit *> &hitArray,USh
       
   //currently looking for peaks with TSpectrum to obtain multi hit times
   //M. Raggi 19/10/2018
-  Int_t npeaks =35;
+  Int_t npeaks =35; //correct value!
   Double_t AbsSamRec[1024];
 
   for(UShort_t s=0;s<iMax;s++){

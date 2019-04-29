@@ -66,6 +66,15 @@ void PadmeVCalibration::PerformCalibration(std::vector<TRecoVHit *> &Hits)
     Hits[iHit]->SetEnergy(Hits[iHit]->GetEnergy()*GetChannelEnergyResponse(ich));
   }
 }
+void PadmeVCalibration::ReadCalibrationConstants(std::vector<TRecoVHit *> &Hits) //CT
+{
+  for(unsigned int iHit = 0; iHit < Hits.size(); ++iHit){
+    int ich = Hits[iHit]->GetChannelId();
+
+    Hits[iHit]->SetTime(Hits[iHit]->GetTime());
+    Hits[iHit]->SetEnergy(Hits[iHit]->GetEnergy()*GetChannelEnergyResponse(ich)); //CT you should change this, adding calibration constants
+  }
+}
 PadmeVCalibration::~PadmeVCalibration(){
   if (fTimeCalibMap)   delete fTimeCalibMap;
   if (fEnergyCalibMap) delete fEnergyCalibMap;

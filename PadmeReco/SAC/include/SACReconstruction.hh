@@ -22,6 +22,8 @@ public:
   // void ParseConfFile(TString);
   // virtual void Init(PadmeVReconstruction*);
   virtual void ProcessEvent(TMCVEvent*,TMCEvent*);
+  virtual void ProcessEvent(TRawEvent*); //CT
+  virtual void ProcessEvent(TRecoVObject* recoObj, TRecoEvent* tRecoEvent); //CT
   // virtual void EndProcessing();
   virtual void HistoInit();
   virtual void AnalyzeEvent(TRawEvent* evt);

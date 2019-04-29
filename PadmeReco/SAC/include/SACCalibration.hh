@@ -18,9 +18,12 @@ public:
   
   SACCalibration();
   ~SACCalibration();
+  void ReadCalibrationConstants(std::vector<TRecoVHit *> &hitArray);
   
-
 private:
+
+  Double_t fCalibCh[24];
+  std::map < std::pair<int,int>,double> fCalibMap;
 
 };
 #endif

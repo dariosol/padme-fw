@@ -41,6 +41,8 @@ public:
 
   virtual void PerformCalibration(std::vector<TRecoVHit *> &hitArray);
   virtual void PerformCalibration(std::vector<TRecoVCluster*> &clusArray){;}
+  virtual void ReadCalibrationConstants(std::vector<TRecoVHit *> &hitArray); //CT
+  virtual void ReadCalibrationConstants(std::vector<TRecoVCluster*> &clusArray){;} //CT
   
   
 protected:
