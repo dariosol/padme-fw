@@ -79,8 +79,11 @@ class Trigger:
         self.correlated_trigger_delay = int('0x01f4 ',0)
 
         # Default timepix settings
-        self.timepix_shutter_delay = int('0x02',0)
-        self.timepix_shutter_width = int('0xff',0)
+        self.timepix_shutter_delay = int('0x00',0)
+        self.timepix_shutter_width = int('0x64',0)
+
+        # Default trigger 0 delay
+        self.trigger0_delay = int('0x00',0)
 
         # Default DAQ control parameters
         self.daq_loop_delay = 10000
@@ -128,6 +131,7 @@ class Trigger:
                 elif (p_name == "correlated_trigger_delay"): self.correlated_trigger_delay = int(p_value,0)
                 elif (p_name == "timepix_shutter_delay"):    self.timepix_shutter_delay = int(p_value,0)
                 elif (p_name == "timepix_shutter_width"):    self.timepix_shutter_width = int(p_value,0)
+                elif (p_name == "trigger0_delay"):           self.trigger0_dealy = int(p_value,0)
                 elif (p_name == "daq_loop_delay"):           self.daq_loop_delay = int(p_value,0)
                 elif (p_name == "debug_scale"):              self.debug_scale = int(p_value,0)
                 else:
@@ -206,6 +210,8 @@ class Trigger:
 
         cfgstring += "timepix_shutter_delay\t\t0x%02x\n"%self.timepix_shutter_delay
         cfgstring += "timepix_shutter_width\t\t0x%02x\n"%self.timepix_shutter_width
+
+        cfgstring += "trigger0_delay\t\t0x%02x\n"%self.trigger0_delay
 
         cfgstring += "daq_loop_delay\t\t\t%d\n"%self.daq_loop_delay
         cfgstring += "debug_scale\t\t\t%d\n"%self.debug_scale
@@ -291,6 +297,8 @@ class Trigger:
 
         self.db.add_cfg_para_trigger(self.process_id,"timepix_shutter_delay",   "%#02x"%self.timepix_shutter_delay)
         self.db.add_cfg_para_trigger(self.process_id,"timepix_shutter_width",   "%#02x"%self.timepix_shutter_width)
+
+        self.db.add_cfg_para_trigger(self.process_id,"trigger0_delay",   "%#02x"%self.trigger0_delay)
 
         self.db.add_cfg_para_trigger(self.process_id,"daq_loop_delay",     repr(self.daq_loop_delay))
         self.db.add_cfg_para_trigger(self.process_id,"debug_scale",        repr(self.debug_scale))
