@@ -250,7 +250,7 @@ class Run:
 
         cfgstring += "user_account\t\t%s\n"%self.user_account
         cfgstring += "daq_dir\t\t\t%s\n"%self.daq_dir
-        cfgstring += "base_port_number\t\t%s\n"%self.base_port_number
+        cfgstring += "base_port_number\t%s\n"%self.base_port_number
         cfgstring += "ssh_id_file\t\t%s\n"%self.ssh_id_file
 
         cfgstring += "daq_executable\t\t%s\n"%self.daq_executable

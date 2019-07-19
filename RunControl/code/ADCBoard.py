@@ -225,7 +225,7 @@ class ADCBoard:
         cfgstring += "drs4_sampfreq\t\t%d\n"%self.drs4_sampfreq
 
         cfgstring += "daq_loop_delay\t\t%d\n"%self.daq_loop_delay
-        cfgstring += "debug_scale\t\t\t%d\n"%self.debug_scale
+        cfgstring += "debug_scale\t\t%d\n"%self.debug_scale
 
         cfgstring += "auto_threshold\t\t%#04x\n"%self.auto_threshold
         cfgstring += "auto_duration\t\t%d\n"%self.auto_duration
@@ -273,7 +273,7 @@ class ADCBoard:
                 if (self.zs2_minrms_ch[ch] != self.zs2_minrms):
                     cfgstring += "zs2_minrms_ch\t%d\t%f\n"%(ch,self.zs2_minrms_ch[ch])
 
-        cfgstring += "debug_scale\t\t\t%d\n"%self.debug_scale
+        cfgstring += "debug_scale\t\t%d\n"%self.debug_scale
 
         return cfgstring
 
