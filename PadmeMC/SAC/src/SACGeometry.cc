@@ -28,6 +28,7 @@ SACGeometry::SACGeometry()
 
   fSACNRows = 5;
   fSACNCols = 5;
+  fSACNLayers = 5;
 
   fCrystalGap = 50.*um;
 
@@ -124,6 +125,10 @@ std::vector<G4String> SACGeometry::GetHashTable()
   buffer.str("");
 
   buffer << "fSACNCols " << fSACNCols;
+  hash.push_back(buffer.str());
+  buffer.str("");
+
+  buffer << "fSACNLayers " << fSACNLayers;
   hash.push_back(buffer.str());
   buffer.str("");
 

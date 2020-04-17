@@ -88,16 +88,23 @@ void SACDetector::CreateGeometry()
   new G4PVPlacement(0,G4ThreeVector(0.,0.,0.),fCrystalVolume,"SACCry",fCellVolume,false,0,false);
 
   // Get number of rows and columns of crystals and position all crystals
-  G4int nRow = geo->GetSACNRows();
-  G4int nCol = geo->GetSACNCols();
-  for (G4int row=0;row<nRow;row++){
-    for (G4int col=0;col<nCol;col++){
-      if (geo->ExistsCrystalAt(row,col)) {
-	G4ThreeVector positionCry = G4ThreeVector(geo->GetCrystalPosX(row,col),geo->GetCrystalPosY(row,col),geo->GetCrystalPosZ(row,col));
-	G4int idxCell = row*SACGEOMETRY_N_COLS_MAX+col;
-	new G4PVPlacement(0,positionCry,fCellVolume,"SACCell",fSACVolume,false,idxCell,false);
+  G4int nRow    = geo->GetSACNRows();
+  G4int nCol    = geo->GetSACNCols();
+  G4int nLayers = geo->GetSACNLayers();
+
+  G4double Zoffset = 0; // in mm
+
+  //I should repeat the structure for different layers
+  for (G4int layer=0; layer<nLayers;layer++){
+    Zoffset=140*layer;
+    for (G4int row=0;row<nRow;row++){
+      for (G4int col=0;col<nCol;col++){
+	if (geo->ExistsCrystalAt(row,col)) {
+	  G4ThreeVector positionCry = G4ThreeVector(geo->GetCrystalPosX(row,col),geo->GetCrystalPosY(row,col),geo->GetCrystalPosZ(row,col)+Zoffset);
+	  G4int idxCell = row*SACGEOMETRY_N_COLS_MAX+col;
+	  new G4PVPlacement(0,positionCry,fCellVolume,"SACCell",fSACVolume,false,idxCell,false);
+	}
       }
     }
   }
-
 }

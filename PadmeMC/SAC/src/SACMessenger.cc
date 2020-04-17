@@ -36,6 +36,12 @@ SACMessenger::SACMessenger(SACDetector* det)
   fSetSACNColsCmd->SetRange("NC >= 1 && NC <= 10");
   fSetSACNColsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+  fSetSACNLayersCmd = new G4UIcmdWithAnInteger("/Detector/SAC/NLayers",this);
+  fSetSACNLayersCmd->SetGuidance("Set number of crystal layers in SAC.");
+  fSetSACNLayersCmd->SetParameterName("NL",false);
+  fSetSACNLayersCmd->SetRange("NL >= 1 && NL <= 10");
+  fSetSACNLayersCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
   fSetCrystalSizeCmd = new G4UIcmdWithADoubleAndUnit("/Detector/SAC/CrystalSize",this);
   fSetCrystalSizeCmd->SetGuidance("Set size (side of square) of SAC crystal front face.");
   fSetCrystalSizeCmd->SetParameterName("S",false);
@@ -84,6 +90,7 @@ SACMessenger::~SACMessenger()
 
   delete fSetSACNRowsCmd;
   delete fSetSACNColsCmd;
+  delete fSetSACNLayersCmd;
 
   delete fSetCrystalSizeCmd;
   delete fSetCrystalLengthCmd;
@@ -106,6 +113,9 @@ void SACMessenger::SetNewValue(G4UIcommand* cmd, G4String par)
     fSACGeometry->SetSACNRows(fSetSACNRowsCmd->GetNewIntValue(par));
   if ( cmd == fSetSACNColsCmd )
     fSACGeometry->SetSACNCols(fSetSACNColsCmd->GetNewIntValue(par));
+
+  if ( cmd == fSetSACNLayersCmd )
+    fSACGeometry->SetSACNLayers(fSetSACNLayersCmd->GetNewIntValue(par));
 
   if ( cmd == fSetCrystalSizeCmd ) {
     fSACGeometry->SetCrystalSizeX(fSetCrystalSizeCmd->GetNewDoubleValue(par));

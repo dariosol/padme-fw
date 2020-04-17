@@ -53,8 +53,11 @@ public:
   // Number of rows and columns of crystals in SAC
   G4int GetSACNRows() { return fSACNRows; }
   G4int GetSACNCols() { return fSACNCols; }
+  G4int GetSACNLayers() { return fSACNLayers; }
+  
   void  SetSACNRows(G4int r) { fSACNRows = r; }
   void  SetSACNCols(G4int c) { fSACNCols = c; }
+  void  SetSACNLayers(G4int l) { fSACNLayers = l; }
 
   // Check if crystal exists at given row/column
   G4int ExistsCrystalAt(G4int,G4int);
@@ -118,6 +121,7 @@ private:
 
   G4int fSACNRows;
   G4int fSACNCols;
+  G4int fSACNLayers;
 
   G4double fCrystalGap; // Air gap size between adjacent crystals
 

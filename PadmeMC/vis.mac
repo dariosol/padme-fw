@@ -44,8 +44,8 @@
 # Disable/enable saving to Fast analysis Tree U102
 # uses conditions on ECal Energy, SAC energy, Hit in the Veto
 /analysis/SaveEcal  false
-#/analysis/SaveSAC   false
 /analysis/SaveVeto  false
+/analysis/SaveSAC   true
 
 # Enable IO for single detectors
 #/output/EnableDetectorIO Target:D
@@ -148,9 +148,11 @@
 #/Detector/ECal/PanelGap 0.1
 
 #/Detector/SAC/VerboseLevel 0
-/Detector/SAC/NRows 10
-/Detector/SAC/NCols 5
-#/Detector/SAC/CrystalSize 3. cm
+/Detector/SAC/NRows   5
+/Detector/SAC/NCols   5
+/Detector/SAC/NLayers 2
+
+#/Detector/SAC/CrystalSize 2. cm
 #/Detector/SAC/CrystalLength 14. cm
 #/Detector/SAC/CrystalGap 50. um
 #/Detector/SAC/CrystalCoating 100. um
@@ -277,16 +279,16 @@
 
 # Choose viewpoint
 # Side view
-#/vis/viewer/set/viewpointThetaPhi -90. 0. deg
+/vis/viewer/set/viewpointThetaPhi -90. 0. deg
 # Top view
-/vis/viewer/set/viewpointThetaPhi 90. 90. deg
+#/vis/viewer/set/viewpointThetaPhi 90. 90. deg
 # Front view
 #/vis/viewer/set/viewpointThetaPhi 0. 0. deg
 # Back view
 #/vis/viewer/set/viewpointThetaPhi 180. 0. deg
 
 # Specify zoom value:
-/vis/viewer/zoom 1.
+/vis/viewer/zoom 1.8
 
 # Specify style (surface or wireframe):
 /vis/viewer/set/style wireframe

@@ -36,6 +36,7 @@ private:
 
   G4UIcmdWithAnInteger* fSetSACNRowsCmd;
   G4UIcmdWithAnInteger* fSetSACNColsCmd;
+  G4UIcmdWithAnInteger* fSetSACNLayersCmd;
 
   G4UIcmdWithADoubleAndUnit* fSetCrystalSizeCmd;
   G4UIcmdWithADoubleAndUnit* fSetCrystalLengthCmd;
