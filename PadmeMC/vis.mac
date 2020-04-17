@@ -62,7 +62,7 @@
 /output/DisableDetectorIO EVeto
 /output/DisableDetectorIO HEPVeto
 /output/DisableDetectorIO ECal
-/output/DisableDetectorIO SAC
+#/output/DisableDetectorIO SAC
 /output/DisableDetectorIO TPix
 
 # Detector settings
@@ -148,7 +148,7 @@
 #/Detector/ECal/PanelGap 0.1
 
 #/Detector/SAC/VerboseLevel 0
-/Detector/SAC/NRows 10
+/Detector/SAC/NRows 5
 /Detector/SAC/NCols 5
 #/Detector/SAC/CrystalSize 3. cm
 #/Detector/SAC/CrystalLength 14. cm
