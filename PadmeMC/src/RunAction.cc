@@ -117,7 +117,8 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
     if (bpar->CalibrationRun()) {
       sprintf(cmd,"/vis/scene/add/text2D -0.95 -0.95 20 ! ! gamma @ %.0f MeV",bpar->GetCalibRunEnergy()/MeV);
     } else {
-      sprintf(cmd,"/vis/scene/add/text2D -0.95 -0.95 20 ! ! %d e+ @ %.0f MeV",bpar->GetNPositronsPerBunch(),bpar->GetBeamMomentum()/MeV);
+      //      sprintf(cmd,"/vis/scene/add/text2D -0.95 -0.95 20 ! ! %d e+ @ %.0f MeV",bpar->GetNPositronsPerBunch(),bpar->GetBeamMomentum()/MeV);
+      sprintf(cmd,"/vis/scene/add/text2D -0.95 -0.95 20 ! ! %d neutron @ %.0f MeV",bpar->GetNPositronsPerBunch(),bpar->GetBeamMomentum()/MeV);
     }
     G4UImanager* UI = G4UImanager::GetUIpointer();
     UI->ApplyCommand("/vis/set/textColour cyan");

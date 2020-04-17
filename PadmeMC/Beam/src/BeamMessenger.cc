@@ -115,7 +115,7 @@ BeamMessenger::BeamMessenger(BeamGenerator* bgen)
   fSetBeamMomentumCmd->SetGuidance("Set momentum of beam.");
   fSetBeamMomentumCmd->SetParameterName("P",false);
   fSetBeamMomentumCmd->SetDefaultUnit("MeV");
-  fSetBeamMomentumCmd->SetRange("P > 0. && P <= 1000.");
+  fSetBeamMomentumCmd->SetRange("P > 0. && P <= 100000.");
   fSetBeamMomentumCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
   fEnableBeamMomentumSpreadCmd = new G4UIcmdWithABool("/beam/momentum_spread_on",this);

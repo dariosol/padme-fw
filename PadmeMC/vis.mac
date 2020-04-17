@@ -39,13 +39,13 @@
 
 # Disable/enable SAC/ECal analysis (WARNING! For SAC see command documentation)
 #/analysis/DisableSACAnalysis true
-#/analysis/DisableECalAnalysis true
+/analysis/DisableECalAnalysis true
 
 # Disable/enable saving to Fast analysis Tree U102
 # uses conditions on ECal Energy, SAC energy, Hit in the Veto
-#/analysis/SaveEcal  true
+/analysis/SaveEcal  false
 #/analysis/SaveSAC   false
-#/analysis/SaveVeto  false
+/analysis/SaveVeto  false
 
 # Enable IO for single detectors
 #/output/EnableDetectorIO Target:D
@@ -57,22 +57,22 @@
 #/output/EnableDetectorIO TPix:D
 
 # Disable IO for single detectors
-#/output/DisableDetectorIO Target
-#/output/DisableDetectorIO PVeto
-#/output/DisableDetectorIO EVeto
-#/output/DisableDetectorIO HEPVeto
-#/output/DisableDetectorIO ECal 
-#/output/DisableDetectorIO SAC
-#/output/DisableDetectorIO TPix
+/output/DisableDetectorIO Target
+/output/DisableDetectorIO PVeto
+/output/DisableDetectorIO EVeto
+/output/DisableDetectorIO HEPVeto
+/output/DisableDetectorIO ECal
+/output/DisableDetectorIO SAC
+/output/DisableDetectorIO TPix
 
 # Detector settings
 
 #/Detector/VerboseLevel 0
 
 #/Detector/EnableSubDetector ECal
-#/Detector/EnableSubDetector Target
-#/Detector/EnableSubDetector SAC
-#/Detector/EnableSubDetector PVeto
+/Detector/EnableSubDetector Target
+/Detector/EnableSubDetector SAC
+#Detector/EnableSubDetector PVeto
 #/Detector/EnableSubDetector EVeto
 #/Detector/EnableSubDetector HEPVeto
 #/Detector/EnableSubDetector TDump
@@ -82,17 +82,17 @@
 #/Detector/EnableStructure Chamber
 #/Detector/EnableStructure BeamLine
 
-#/Detector/DisableSubDetector ECal
+/Detector/DisableSubDetector ECal
 #/Detector/DisableSubDetector Target
 #/Detector/DisableSubDetector SAC
-#/Detector/DisableSubDetector PVeto
-#/Detector/DisableSubDetector EVeto
-#/Detector/DisableSubDetector HEPVeto
-#/Detector/DisableSubDetector TDump
-#/Detector/DisableSubDetector TPix
+/Detector/DisableSubDetector PVeto
+/Detector/DisableSubDetector EVeto
+/Detector/DisableSubDetector HEPVeto
+/Detector/DisableSubDetector TDump
+/Detector/DisableSubDetector TPix
 
-#/Detector/DisableStructure Magnet
-#/Detector/DisableStructure Chamber
+/Detector/DisableStructure Magnet
+/Detector/DisableStructure Chamber
 #/Detector/DisableStructure BeamLine
 
 #/Detector/WorldIsAir
@@ -108,14 +108,14 @@
 #/Detector/SetBeamLineInvisible
 
 #/Detector/EnableMagneticField
-#/Detector/DisableMagneticField
+/Detector/DisableMagneticField
 #/Detector/SetMagneticFieldValue 0.4542 tesla
 
 #/Detector/CrossMagneticVolume internal
 #/Detector/CrossMagneticVolume external
 
 #/Detector/SetMagneticVolumeVisible
-#/Detector/SetMagneticVolumeInvisible
+/Detector/SetMagneticVolumeInvisible
 
 # Beam line settings
 #/Detector/BeamLine/EnableBeWindow true
@@ -148,8 +148,8 @@
 #/Detector/ECal/PanelGap 0.1
 
 #/Detector/SAC/VerboseLevel 0
-#/Detector/SAC/NRows 5
-#/Detector/SAC/NCols 5
+/Detector/SAC/NRows 10
+/Detector/SAC/NCols 5
 #/Detector/SAC/CrystalSize 3. cm
 #/Detector/SAC/CrystalLength 14. cm
 #/Detector/SAC/CrystalGap 50. um
@@ -184,7 +184,7 @@
 # Beam setup
 
 # Primary positrons setup (default PADMEMC configuration)
-#/beam/n_e+_per_bunch 25000
+/beam/n_e+_per_bunch 25
 #/beam/n_e+_poisson_on true
 #/beam/bunch_structure_on true
 #/beam/bunch_time_length 250. ns
@@ -192,11 +192,11 @@
 #/beam/ubunch_time_delay 350. ps
 #/beam/position_x 0. cm
 #/beam/position_y 0. cm
-#/beam/position_z -103. cm
+/beam/position_z -100. cm
 #/beam/position_spread_on true
 #/beam/position_x_spread 1. mm
 #/beam/position_y_spread 1. mm
-#/beam/momentum 545. MeV
+/beam/momentum 40000 MeV
 #/beam/momentum_spread_on true
 #/beam/momentum_spread 5.45 MeV
 #/beam/direction 0. 0. 1.
@@ -218,7 +218,7 @@
 # Beam Line studies: position beam at Be window
 #/beam/position_x 2247.67 mm
 #/beam/position_y 0. cm
-#/beam/position_z -4596.36 mm
+#/beam/position_z -1000 mm
 #/beam/direction -1. 0. 1.
 
 # Uboson generator
@@ -250,10 +250,10 @@
 /run/initialize
 
 # Use this open statement to create an OpenGL view:
-#/vis/open OGL 600x600-0+0
+/vis/open OGL 600x600-0+0
 
 # Use this open statement to create a .prim file suitable for viewing in DAWN:
-/vis/open DAWNFILE
+#/vis/open DAWNFILE
 
 # Use this open statement to create a .heprep file suitable for viewing in HepRApp:
 #/vis/open HepRepFile
@@ -286,7 +286,7 @@
 #/vis/viewer/set/viewpointThetaPhi 180. 0. deg
 
 # Specify zoom value:
-/vis/viewer/zoom 1.4
+/vis/viewer/zoom 1.
 
 # Specify style (surface or wireframe):
 /vis/viewer/set/style wireframe
@@ -298,7 +298,7 @@
 # Decorations
 /vis/set/textColour green
 /vis/set/textLayout right
-/vis/scene/add/text2D 0.9 -.9 24 ! ! PadmeMC
+/vis/scene/add/text2D 0.9 -.9 24 ! ! KLEVER SAC
 /vis/set/textLayout    # Revert to normal (left adjusted) layout
 /vis/set/textColour    # Revert to default text colour (blue)
 /vis/scene/add/eventID # Drawn at end of event
@@ -336,7 +336,7 @@
 # Fix problem in visualizing some circular parts
 /vis/viewer/set/lineSegmentsPerCircle 50
 
-/vis/scene/endOfEventAction accumulate 10000
+/vis/scene/endOfEventAction accumulate 10
 
 /vis/viewer/flush
 
@@ -353,6 +353,6 @@
 # Only show tracks with p>1MeV
 /vis/filtering/trajectories/create/attributeFilter
 /vis/filtering/trajectories/attributeFilter-0/setAttribute IMag
-/vis/filtering/trajectories/attributeFilter-0/addInterval 1. MeV 1000. MeV
+/vis/filtering/trajectories/attributeFilter-0/addInterval 1. MeV 100000. MeV
 
 #/run/beamOn 1	

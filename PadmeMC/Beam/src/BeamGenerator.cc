@@ -145,7 +145,7 @@ void BeamGenerator::GenerateBeam(G4Event* anEvent)
     //G4cout << "Positron " << fPositron.t << " " << fPositron.pos << " " << fPositron.P << " " << fPositron.dir << G4endl;
 
     // Create e+ primary particle with generated four-momentum
-    G4PrimaryParticle* positron = new G4PrimaryParticle(G4ParticleTable::GetParticleTable()->FindParticle("e+"),
+    G4PrimaryParticle* positron = new G4PrimaryParticle(G4ParticleTable::GetParticleTable()->FindParticle("neutron"),
 							fPositron.p.x(),fPositron.p.y(),fPositron.p.z(),fPositron.E);
     // Create primary vertex at generated position/time
     G4PrimaryVertex* vtx = new G4PrimaryVertex(G4ThreeVector(fPositron.pos.x(),fPositron.pos.y(),fPositron.pos.z()),fPositron.t);
@@ -171,8 +171,8 @@ void BeamGenerator::GeneratePrimaryPositron()
   // Generate a primary e+ with right time/energy/position/direction
 
   // Get mass of positron
-  fPositron.m = G4ParticleTable::GetParticleTable()->FindParticle("e+")->GetPDGMass(); // Mass
-  //  G4cout << "BeamGenerator - Positron mass " << fPositron.m << G4endl;
+  fPositron.m = G4ParticleTable::GetParticleTable()->FindParticle("neutron")->GetPDGMass(); // Mass
+  G4cout << "BeamGenerator - Positron mass " << fPositron.m << G4endl;
 
   // Assign a time using bunch time structure (if required)
   G4double parTime = 0.;
