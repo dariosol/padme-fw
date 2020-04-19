@@ -132,6 +132,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
   }
 
   // Digitize this event
+  G4cout<<"Init digitizer"<<G4endl;
   G4DigiManager* theDM = G4DigiManager::GetDMpointer();
   TargetDigitizer* targetDM = (TargetDigitizer*)theDM->FindDigitizerModule("TargetDigitizer");
   targetDM->Digitize();
@@ -145,18 +146,28 @@ void EventAction::EndOfEventAction(const G4Event* evt)
   eCalDM->Digitize();
   SACDigitizer* sacDM = (SACDigitizer*)theDM->FindDigitizerModule("SACDigitizer");
   sacDM->Digitize();
-  TPixDigitizer* tPixDM = (TPixDigitizer*)theDM->FindDigitizerModule("TPixDigitizer");
-  tPixDM->Digitize();
-
+//  TPixDigitizer* tPixDM = (TPixDigitizer*)theDM->FindDigitizerModule("TPixDigitizer");
+//  tPixDM->Digitize();
+  G4cout<<"End Digitizer"<<G4endl;
   // Save event to root file
+  G4cout<<"Run RootIOManager to save the Event"<<G4endl;
+
+  
+  theDM->List();
+    
   RootIOManager::GetInstance()->SaveEvent(evt);
+  G4cout<<"Event Saved"<<G4endl;
 
   G4int nHC = 0;
   G4HCofThisEvent* LHC = evt->GetHCofThisEvent(); //list of Hit collections
   if (LHC) nHC = LHC->GetNumberOfCollections();
-  //  G4cout<<"N collections "<<nHC<<G4endl;
+  G4cout<<"N collections "<<nHC<<G4endl;
+  
   for(G4int iHC=0; iHC<nHC; iHC++) {
-    G4String HCname = LHC->GetHC(iHC)->GetName();  //nome della collezione
+  
+    G4String HCname = LHC->GetHC(iHC)->GetName();  //nome della collezione    
+    G4cout<<"******iHC "<<iHC<<" HCname "<<HCname<<G4endl;
+
     if (HCname == "ECalCollection") {
       AddECryHits((ECalHitsCollection*) (LHC->GetHC(iHC)));
       FindClusters();
@@ -181,6 +192,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
   //int Ncells=0;
 
   //Retrieve beam Infos!
+  G4cout<<"Beam infos "<<G4endl;
   G4double BeamE  = myStepping->GetPositronE();
   G4double BeamX  = myStepping->GetPositronX();
   G4double BeamY  = myStepping->GetPositronY();
@@ -188,6 +200,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
   G4double PrimE  = myStepping->GetPrimE();
   
   
+  G4cout<<"Positron Infos "<<G4endl;
   G4ThreeVector PositronMomentum = myStepping->GetPositronMomentum();
   // G4cout << " Getting the momentum to store:   " << PositronMomentum << G4endl;
 
@@ -195,6 +208,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
   fHistoManager->myEvt.PMomY = PositronMomentum.y();
   fHistoManager->myEvt.PMomZ = PositronMomentum.z();
 
+  G4cout<<"ProcessInfo "<<G4endl;
   ProcID = myStepping->GetPhysProc();   
   fHistoManager->FillHisto(1,ETotCal);
   fHistoManager->FillHisto(14,ProcID);
@@ -210,8 +224,10 @@ void EventAction::EndOfEventAction(const G4Event* evt)
     if(ProcID==1) fHistoManager->FillHisto2(34,myStepping->GetGammaEnergy(),myStepping->GetGammaAngle(),1.);
     if(ProcID==2) fHistoManager->FillHisto2(35,myStepping->GetGammaEnergy(),myStepping->GetGammaAngle(),1.);
   }
-
+  G4cout<<"CheckNTracks "<<G4endl;
   NTracks = NPVetoTracks+ NEVetoTracks;
+  G4cout<<"NTracks "<<NTracks<<G4endl;
+
   //  fill ntuple for the event
   fHistoManager->myEvt.NTNevent         = evt->GetEventID();
   fHistoManager->myEvt.NTNCluster       = NClusters;

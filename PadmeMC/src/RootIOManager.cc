@@ -68,12 +68,12 @@ RootIOManager::RootIOManager()
   G4cout << "RootIOManager: Initialized" << G4endl;
 
   // Add subdetectors persistency managers
+  fRootIOList.push_back(new SACRootIO);
   fRootIOList.push_back(new ECalRootIO);
   fRootIOList.push_back(new TargetRootIO);
   fRootIOList.push_back(new PVetoRootIO);
   fRootIOList.push_back(new EVetoRootIO);
   fRootIOList.push_back(new HEPVetoRootIO);
-  fRootIOList.push_back(new SACRootIO);
   fRootIOList.push_back(new TPixRootIO);
   //fRootIOList.push_back(new LAVRootIO);
   //fRootIOList.push_back(new MagnetRootIO);
@@ -236,7 +236,7 @@ void RootIOManager::NewRun(G4int nRun)
   RootIOList::iterator iRootIO(fRootIOList.begin());
   RootIOList::iterator endRootIO(fRootIOList.end());
   while (iRootIO!=endRootIO) {
-    //G4cout << "RootIOManager: Checking IO for " << (*iRootIO)->GetName() << G4endl;
+    G4cout << "RootIOManager: Checking IO for " << (*iRootIO)->GetName() << G4endl;
     if ((*iRootIO)->GetEnabled()) {
       //G4cout << "RootIOManager: IO for " << (*iRootIO)->GetName() << " enabled" << G4endl;
       (*iRootIO)->NewRun(nRun,fFile,detInfo);
@@ -285,20 +285,27 @@ void RootIOManager::EndRun()
 
 void RootIOManager::SaveEvent(const G4Event* eventG4)
 {
+    G4cout << "RootIOManager: Preparing event structure" << G4endl;
+
   if (fVerbose>=2)
     G4cout << "RootIOManager: Preparing event structure" << G4endl;
 
   // Save current Object count
+  G4cout <<" Save current Object count"<< G4endl;
   Int_t savedObjNumber = TProcessID::GetObjectCount();
 
   // Increase event counter for this run
+  G4cout <<"Increase counter"<< G4endl;
   fRun->IncNEvents();
 
   // Get event id (run,event,date)
+  G4cout <<" Get event run id "<< G4endl;
   G4int nRun = G4RunManager::GetRunManager()->GetCurrentRun()->GetRunID();
+  G4cout <<" Get event id"<< G4endl;
   G4int nEvent = eventG4->GetEventID();
   //G4int date = time(0);
   struct timeval tp;
+  G4cout <<" Get time of the day"<< G4endl;
   gettimeofday(&tp,NULL);
   G4double now = tp.tv_sec*1.+tp.tv_usec/1000000.;
 
@@ -307,26 +314,37 @@ void RootIOManager::SaveEvent(const G4Event* eventG4)
 	   << " Run " << nRun << " at " << now << G4endl;
 
   // Fill Event info
+  G4cout <<"  Fill Event info"<< G4endl;
   fEvent->SetRunNumber(nRun);
   fEvent->SetEventNumber(nEvent);
   fEvent->SetTime(now);
+  G4cout <<"  Event info filled"<< G4endl;
 
   //Restore Object count
   //To save space in the table keeping track of all referenced objects
   //we assume that our events do not address each other. We reset the
   //object count to what it was at the beginning of the event.
+  G4cout <<" Restore Object count"<< G4endl;
+
   TProcessID::SetObjectCount(savedObjNumber);
+  G4cout <<" Restored"<< G4endl;
 
   if (fVerbose>=2)
     G4cout << "RootIOManager: Saving event structure to file" << G4endl;
   if (fVerbose>=8)
     fEvent->Print();
   //if (fVerbose>=9) fEvent->PrintAll();
-
+  fEvent->Print();
   RootIOList::iterator iRootIO(fRootIOList.begin());
   RootIOList::iterator endRootIO(fRootIOList.end());
   while (iRootIO!=endRootIO) {
-    if ((*iRootIO)->GetEnabled()) (*iRootIO)->SaveEvent(eventG4);
+    G4cout<<"I am in the while! "<<G4endl;
+    G4cout<<"Is "<< (*iRootIO)->GetName()<<" enabled? " <<(*iRootIO)->GetEnabled()<<G4endl;
+    if ((*iRootIO)->GetEnabled()) {
+      (*iRootIO)->SaveEvent(eventG4);
+      G4cout<<"Saved"<<G4endl;
+    }
+    
     iRootIO++;
   }
 

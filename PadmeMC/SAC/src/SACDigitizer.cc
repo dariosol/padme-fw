@@ -21,8 +21,9 @@ SACDigitizer::SACDigitizer(G4String name)
 
   // Register digi collection
   G4String colName = "SACDigiCollection";
+  G4cout<<"*******SetNAME!!"<<G4endl;
   collectionName.push_back(colName);
-
+G4cout<<"*********NAMESET!!"<<G4endl;
   SACGeometry* geo = SACGeometry::GetInstance();
 
   // Initialize digitization parameters
@@ -120,8 +121,9 @@ void SACDigitizer::DigitizeSinglHit()
     //}
 
   }
-
+  G4cout<<"°°°°°°°°°°°°°°°°°°°°°°°°°°°Storing Digi Collection"<<G4endl;
   StoreDigiCollection(sacDigiCollection);
+  G4cout<<"°°°°°°°°°°°°°°°°°°°°°°°°°°°Stored"<<G4endl;
 
 }
 
@@ -267,7 +269,9 @@ void SACDigitizer::Digitize()
   //   }
   
   }
-
+  G4cout<<"°°°°°°°°°°°°°°°°°°°°°°°°°°°Storing Digi Collection"<<G4endl;
   StoreDigiCollection(SACdigiCollection);
+  G4cout<<"°°°°°°°°°°°°°°°°°°°°°°°°°°°Stored"<<G4endl;
+
 
 }

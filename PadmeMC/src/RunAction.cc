@@ -35,6 +35,7 @@
 RunAction::RunAction()
 {
 
+  G4cout << "Histo manager is instancing objects" << G4endl;
   fHistoManager = HistoManager::GetInstance();
 
   fAutomaticRandomSeed = false;

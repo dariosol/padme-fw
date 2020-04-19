@@ -9,7 +9,7 @@
 # General run settings
 
 # How often event printout is shown
-/settings/PrintOutFrequency 1
+#/settings/PrintOutFrequency 100
 
 # Automatically generate random seeds using system time
 # If disabled, user must set environment variables PADME_SEED1 and PADME_SEED2
@@ -53,21 +53,21 @@
 #/output/EnableDetectorIO EVeto:HD
 #/output/EnableDetectorIO HEPVeto:HD
 #/output/EnableDetectorIO ECal:D
-/output/EnableDetectorIO SAC:H
+#/output/EnableDetectorIO SAC:D
 #/output/EnableDetectorIO TPix:D
 
 # Disable IO for single detectors
-/output/DisableDetectorIO Target
-/output/DisableDetectorIO PVeto
-/output/DisableDetectorIO EVeto
-/output/DisableDetectorIO HEPVeto
-/output/DisableDetectorIO ECal 
+#/output/DisableDetectorIO Target
+#/output/DisableDetectorIO PVeto
+#/output/DisableDetectorIO EVeto
+#/output/DisableDetectorIO HEPVeto
+#/output/DisableDetectorIO ECal 
 #/output/DisableDetectorIO SAC
-/output/DisableDetectorIO TPix
+#/output/DisableDetectorIO TPix
 
 # Detector settings
 
-/Detector/VerboseLevel 1
+#/Detector/VerboseLevel 0
 
 #/Detector/EnableSubDetector ECal
 #/Detector/EnableSubDetector Target
@@ -82,17 +82,17 @@
 #/Detector/EnableStructure Chamber
 #/Detector/EnableStructure BeamLine
 
-/Detector/DisableSubDetector ECal
+#/Detector/DisableSubDetector ECal
 #/Detector/DisableSubDetector Target
 #/Detector/DisableSubDetector SAC
-/Detector/DisableSubDetector PVeto
-/Detector/DisableSubDetector EVeto
-/Detector/DisableSubDetector HEPVeto
+#/Detector/DisableSubDetector PVeto
+#/Detector/DisableSubDetector EVeto
+#/Detector/DisableSubDetector HEPVeto
 #/Detector/DisableSubDetector TDump
 #/Detector/DisableSubDetector TPix
 
-/Detector/DisableStructure Magnet
-/Detector/DisableStructure Chamber
+#/Detector/DisableStructure Magnet
+#/Detector/DisableStructure Chamber
 #/Detector/DisableStructure BeamLine
 
 #/Detector/WorldIsAir
@@ -108,7 +108,7 @@
 #/Detector/SetBeamLineInvisible
 
 #/Detector/EnableMagneticField
-/Detector/DisableMagneticField
+#/Detector/DisableMagneticField
 #/Detector/SetMagneticFieldValue 0.4542 tesla
 
 #/Detector/CrossMagneticVolume internal
@@ -184,10 +184,10 @@
 # Beam setup
 
 # Primary positrons setup (default PADMEMC configuration)
-/beam/n_e+_per_bunch 2
+#/beam/n_e+_per_bunch 2
 #/beam/n_e+_poisson_on true
 #/beam/bunch_structure_on true
-#/beam/bunch_time_length 250. ns
+#/beam/bunch_time_length 25025. ns
 #/beam/ubunch_time_length 150. ps
 #/beam/ubunch_time_delay 350. ps
 #/beam/position_x 0. cm
@@ -286,7 +286,7 @@
 #/vis/viewer/set/viewpointThetaPhi 180. 0. deg
 
 # Specify zoom value:
-/vis/viewer/zoom 1.
+/vis/viewer/zoom 1.4
 
 # Specify style (surface or wireframe):
 /vis/viewer/set/style wireframe
@@ -341,15 +341,9 @@
 /vis/viewer/flush
 
 # Calo picture
-#/vis/viewer/set/viewpointThetaPhi 45. 45.
-#/vis/viewer/panTo 1. 0.
-#/vis/viewer/zoom 4
-
-# SAC picture
-/vis/viewer/set/viewpointThetaPhi 45. 45.
-/vis/viewer/panTo 1. 0.
-/vis/viewer/zoom 1
-
+# /vis/viewer/set/viewpointThetaPhi 45. 45.
+# /vis/viewer/panTo 1. 0.
+# /Vis/viewer/zoom 4
 
 # Monitor picture
 #/vis/viewer/panTo -0.5 0.

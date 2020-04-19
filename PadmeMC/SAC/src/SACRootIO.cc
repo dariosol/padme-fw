@@ -104,7 +104,7 @@ void SACRootIO::EndRun()
 
 void SACRootIO::SaveEvent(const G4Event* eventG4)
 {
-
+  G4cout << "SACRootIO: Preparing event structure" << G4endl;
   if (fVerbose>=2) G4cout << "SACRootIO: Preparing event structure" << G4endl;
 
   //Save current Object count
@@ -114,8 +114,10 @@ void SACRootIO::SaveEvent(const G4Event* eventG4)
   fEvent->Clear();
   fEvent->SetRunNumber(fRunNumber);
   fEvent->SetEventNumber(eventG4->GetEventID());
+  G4cout << "SACRootIO: run: "<<fRunNumber <<" Event "<<eventG4->GetEventID() << G4endl;
 
   if (fHitsEnabled) {
+    G4cout << "HitEnabled" << G4endl;
 
     // Get list of hit collections in this event
     G4HCofThisEvent* theHC = eventG4->GetHCofThisEvent();
@@ -154,16 +156,24 @@ void SACRootIO::SaveEvent(const G4Event* eventG4)
   }
 
   if (fDigisEnabled) {
+    G4cout << "DigisEnabled" << G4endl;
 
     // Get list of digi collections in this event
     G4DCofThisEvent* theDC = eventG4->GetDCofThisEvent();
     G4int nDC = theDC->GetNumberOfCollections();
+    G4cout << "SACRootIO: nDC " << nDC << G4endl;
 
     for(G4int iDC=0; iDC<nDC; iDC++) {
+      G4cout <<iDC << " Looking for SACDigiCollections " << theDC->GetDC(5)->GetName() << G4endl; 
+    }
+    
+    for(G4int iDC=5; iDC<6; iDC++) {
 
       // Handle each collection type with the right method
       G4String DCname = theDC->GetDC(iDC)->GetName();
-      if (DCname == "SACDigiCollection"){
+      G4cout << "Looking for SACDigiCollections " << DCname << G4endl;
+      if (DCname == "SACDigiCollection") {
+	G4cout << "SACRootIO: Found digi collection " << DCname << G4endl;
 	if (fVerbose>=2) G4cout << "SACRootIO: Found digi collection " << DCname << G4endl;
 	SACDigiCollection* sacDC = (SACDigiCollection*)(theDC->GetDC(iDC));
 	if(sacDC) {

@@ -30,13 +30,15 @@ HEPVetoDigitizer::~HEPVetoDigitizer()
 void HEPVetoDigitizer::Digitize()
 {
   const double HEPVetoDigiTimeWindow = 5.;
-
+  G4cout<<"[HEP Digitizer] Hep digitizer constructior"<<G4endl;
   HEPVetoDigiCollection* hepVetoDigiCollection = new HEPVetoDigiCollection("HEPVetoDigitizer","HEPVetoDigiCollection");
 
   G4DigiManager* theDM = G4DigiManager::GetDMpointer();
 
   // Get access to hit collection for HEPVeto
+  G4cout<<"HEP Digitizer looks for Collection"<<G4endl;
   G4int hepVetoHCID = theDM->GetHitsCollectionID("HEPVetoCollection");
+
   if (hepVetoHCID<0) return;
   HEPVetoHitsCollection* hepVetoHC = 0;
   hepVetoHC = (HEPVetoHitsCollection*)(theDM->GetHitsCollection(hepVetoHCID));

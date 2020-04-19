@@ -102,17 +102,22 @@ int main(int argc,char** argv)
   G4VUserPrimaryGeneratorAction* gen_action = new PrimaryGeneratorAction(detector);
   runManager->SetUserAction(gen_action);
   //
+  G4cout << "MAIN:  Constructing the run action" << G4endl;
   RunAction* run_action = new RunAction();
   runManager->SetUserAction(run_action); 
   //
+  G4cout << "MAIN:  Constructing the event action" << G4endl;
   EventAction* myevent_action = new EventAction(run_action);
   G4UserEventAction* event_action  = myevent_action;
   runManager->SetUserAction(event_action);
   //
+  G4cout << "MAIN:  Constructing the stepping action" << G4endl;
   SteppingAction* mystepping_action = new SteppingAction;
 
   G4UserSteppingAction* stepping_action = mystepping_action ;
   runManager->SetUserAction(stepping_action);
+
+  G4cout << "MAIN: setting the pointer to stepping action into Event action " << G4endl;
   myevent_action->myStepping = mystepping_action; //setting the pointer to stepping action into Event action
 
   //Invoca la classe di Stacking Action
@@ -141,6 +146,7 @@ int main(int argc,char** argv)
     {
       G4String command = "/control/execute ";
       G4String fileName = argv[1];
+      G4cout<<"Applying command"<<G4endl;
       UImanager->ApplyCommand(command+fileName);
       //      UImanager->ApplyCommand(command+fileName+fileNameOut);
     }
@@ -149,8 +155,10 @@ int main(int argc,char** argv)
 #ifdef G4UI_USE
       G4UIExecutive * ui = new G4UIExecutive(argc,argv);
 #ifdef G4VIS_USE
+      G4cout<<"Applying command"<<G4endl;
       UImanager->ApplyCommand("/control/execute vis.mac");     
 #endif
+      G4cout<<"Starting session"<<G4endl;
       ui->SessionStart();
       delete ui;
 #endif

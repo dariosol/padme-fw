@@ -112,6 +112,7 @@ void HEPVetoRootIO::SaveEvent(const G4Event* eventG4)
     for(G4int iHC=0; iHC<nHC; iHC++) {
 
       // Handle each collection type with the right method
+
       G4String HCname = theHC->GetHC(iHC)->GetName();
       if (HCname == "HEPVetoCollection"){
 	if (fVerbose>=2) G4cout << "HEPVetoRootIO: Found hits collection " << HCname << G4endl;
