@@ -8,6 +8,9 @@
 /run/verbose 1
 /tracking/verbose 0
 
+#SIMULATION FROM NA62
+/Simulation/Physics QGSP_FTFP_BERT
+
 # General run settings
 
 # How often event printout is shown

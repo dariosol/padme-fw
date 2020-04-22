@@ -16,6 +16,9 @@
 #include "G4PhysListFactory.hh"
 #include "RootIOManager.hh"
 
+#include "PhysicsList.hh"
+#include "PhysicsListMessenger.hh"
+
 #ifdef  G4MULTITHREADED
 #include "G4MTHepRandom.hh"
 #else
@@ -88,17 +91,29 @@ int main(int argc,char** argv)
   // Set inputs from datacard (macro file)
   DatacardManager::GetInstance()->SetMessenger();
 
+  //Set inputs from physics list messanger
+  PhysicsListMessenger::GetInstance();
+
   // User Initialization classes (mandatory)
   DetectorConstruction* detector = new DetectorConstruction;
   runManager->SetUserInitialization(detector);
 
+  //ORIGINAL PADME:  
   // Physics list based on "official" physics models
   // Mainly QGSP_BERT or QGSP_BIC + Optical
-  G4String plName = "FTFP_BERT";
-    //G4VModularPhysicsList* physicsList = new PADME_PHYS;
-  G4PhysListFactory physListFactory;
-  G4VModularPhysicsList* physicsList = physListFactory.GetReferencePhysList(plName);
-runManager->SetUserInitialization(physicsList);
+  //G4VModularPhysicsList* physicsList = new PADME_PHYS;
+
+  //ONLY BERTINI
+  //G4String plName = "FTFP_BERT";  
+  //G4PhysListFactory physListFactory;
+  //G4VModularPhysicsList* physicsList = physListFactory.GetReferencePhysList(plName);
+  //runManager->SetUserInitialization(physicsList);
+
+  //FROM NA62
+  PhysicsList *physList = PhysicsList::GetInstance();
+  runManager->SetUserInitialization(physList);
+  physList->SetMessengerParam(); // the params can be set here as the list will be updated by '/run/initialize' later
+
 
   // User Action classes
   G4cout << "MAIN: Constructing the generator action" << G4endl;
