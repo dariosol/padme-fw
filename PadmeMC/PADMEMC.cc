@@ -13,7 +13,7 @@
 #include "Constants.hh"
 
 #include "PADME_PHYS.hh"
-
+#include "G4PhysListFactory.hh"
 #include "RootIOManager.hh"
 
 #ifdef  G4MULTITHREADED
@@ -94,8 +94,11 @@ int main(int argc,char** argv)
 
   // Physics list based on "official" physics models
   // Mainly QGSP_BERT or QGSP_BIC + Optical
-  G4VModularPhysicsList* physicsList = new PADME_PHYS;
-  runManager->SetUserInitialization(physicsList);
+  G4String plName = "FTFP_BERT";
+    //G4VModularPhysicsList* physicsList = new PADME_PHYS;
+  G4PhysListFactory physListFactory;
+  G4VModularPhysicsList* physicsList = physListFactory.GetReferencePhysList(plName);
+runManager->SetUserInitialization(physicsList);
 
   // User Action classes
   G4cout << "MAIN: Constructing the generator action" << G4endl;

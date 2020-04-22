@@ -1,4 +1,3 @@
-CULO
 #include "SACDigitizer.hh"
 
 #include "SACHit.hh"
@@ -15,7 +14,7 @@ CULO
 #include "G4ios.hh"
 
 #include <vector>
-
+const int NDIGIS=400; 
 SACDigitizer::SACDigitizer(G4String name)
 :G4VDigitizerModule(name)
 {
@@ -150,7 +149,7 @@ void SACDigitizer::ComputeNpe(SACHit* hit,G4double* npe,G4double* time)
 void SACDigitizer::Digitize()
 {
   const double SACDigiTimeWindow = 1.;
-
+ 
   SACDigiCollection* SACdigiCollection = new SACDigiCollection("SACDigitizer","SACDigiCollection");
 
   G4DigiManager* theDM = G4DigiManager::GetDMpointer();
@@ -161,8 +160,8 @@ void SACDigitizer::Digitize()
   SACHitsCollection* sacHC = 0;
   sacHC = (SACHitsCollection*)(theDM->GetHitsCollection(sacHCID));
   
-  std::vector <SACDigi* >  digis[100];
-  for(int ich = 0;ich < 100;ich ++) {
+  std::vector <SACDigi* >  digis[NDIGIS];
+  for(int ich = 0;ich < NDIGIS;ich ++) {
     digis[ich].clear();
   }
   
@@ -170,22 +169,26 @@ void SACDigitizer::Digitize()
   if (sacHC) {
 
     // Zero digi vectors
-    G4double dEnergy[100];
-    G4double dTime[100];
-    for (G4int i=0;i<100;i++) {
+    G4double dEnergy[NDIGIS];
+    G4double dTime[NDIGIS];
+    for (G4int i=0;i<NDIGIS;i++) {
       dEnergy[i] = 0.;
       dTime[i] = 1.E23; // Infinite ;)
     }
 
     // Loop over all hits
     G4int n_hit = sacHC->entries();
+
+    
     for (G4int i=0;i<n_hit;i++) {
+
 
       // Get hit information
       G4int    hChannel = (*sacHC)[i]->GetChannelId();
       G4double hTime    = (*sacHC)[i]->GetTime();
       G4double hEnergy  = (*sacHC)[i]->GetEnergy();
       G4ThreeVector hLocPos = (*sacHC)[i]->GetLocalPosition();
+
       
       // Add information to digi (just an example)
       dEnergy[hChannel] += hEnergy;
@@ -194,7 +197,9 @@ void SACDigitizer::Digitize()
       // Check if the hit is related to some of the present digis
       
       int newdigi = 1;
+
       for(unsigned int idigi = 0;idigi<digis[hChannel].size();idigi++) {
+
 	if(fabs(digis[hChannel][idigi]->GetTime()/digis[hChannel][idigi]->GetEnergy()  - hTime ) < SACDigiTimeWindow ) {
 	  //Energy deposit in the same channel close to previous energy deposit
 	  digis[hChannel][idigi]->SetTime(
@@ -233,7 +238,7 @@ void SACDigitizer::Digitize()
     }
     
     
-    for(unsigned int ich=0;ich<100;ich++) {
+    for(unsigned int ich=0;ich<NDIGIS;ich++) {
       for(unsigned int idigi=0;idigi < digis[ich].size();idigi++) {
 	//Compute the proper quantities of the digi
 	digis[ich][idigi]->SetTime(digis[ich][idigi]->GetTime() / digis[ich][idigi]->GetEnergy());
@@ -253,7 +258,7 @@ void SACDigitizer::Digitize()
 
 
   //   // Create digis if energy is not zero
-  //   for (G4int i=0;i<100;i++) {
+  //   for (G4int i=0;i<NDIGIS;i++) {
   //     if (dEnergy[i] > 0.) {
   // 	SACDigi* digi = new SACDigi();
   // 	digi->SetChannelId(i);

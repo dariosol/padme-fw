@@ -43,12 +43,12 @@ public:
   // Position of center of SAC box
   G4double GetSACPosX() { return 0.*cm; }
   G4double GetSACPosY() { return 0.*cm; }
-  G4double GetSACPosZ() { return fSACFrontFacePosZ+GetCellSizeZ()*0.5; }
+  G4double GetSACPosZ() { return fSACFrontFacePosZ+(GetCellSizeZ()*fSACNLayers)*0.5; }
 
   // Size of SAC box
   G4double GetSACSizeX() { return (GetCellSizeX()+fCrystalGap)*fSACNCols; }
   G4double GetSACSizeY() { return (GetCellSizeY()+fCrystalGap)*fSACNRows; }
-  G4double GetSACSizeZ() { return  GetCellSizeZ()+fCrystalGap; }
+  G4double GetSACSizeZ() { return  (GetCellSizeZ()+fCrystalGap)*(fSACNLayers); }
 
   // Number of rows and columns of crystals in SAC
   G4int GetSACNRows() { return fSACNRows; }

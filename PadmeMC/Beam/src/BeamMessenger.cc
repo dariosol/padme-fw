@@ -156,11 +156,11 @@ BeamMessenger::BeamMessenger(BeamGenerator* bgen)
   fSetBeamEmittanceYCmd->SetRange("EY >= 0. && EY <= 1000.");
   fSetBeamEmittanceYCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  fSetNUbosonDecaysPerBunchCmd = new G4UIcmdWithAnInteger("/beam/n_uboson_per_bunch",this);
-  fSetNUbosonDecaysPerBunchCmd->SetGuidance("Set number of Uboson decays in each bunch.");
-  fSetNUbosonDecaysPerBunchCmd->SetParameterName("NU",false);
-  fSetNUbosonDecaysPerBunchCmd->SetRange("NU == 0 || NU == 1");
-  fSetNUbosonDecaysPerBunchCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+  fSetParticleCmd = new G4UIcmdWithAnInteger("/beam/particle",this);
+  fSetParticleCmd->SetGuidance("Set particle (0==gamma;1==neutron.");
+  fSetParticleCmd->SetParameterName("myparticle",false);
+  fSetParticleCmd->SetRange("myparticle == 0 || myparticle == 1");
+  fSetParticleCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
   fSetUbosonMassCmd = new G4UIcmdWithADoubleAndUnit("/beam/uboson_mass",this);
   fSetUbosonMassCmd->SetGuidance("Set mass of Uboson (in energy units, e.g. MeV).");
@@ -251,7 +251,7 @@ BeamMessenger::~BeamMessenger()
   delete fSetBeamEmittanceXCmd;
   delete fSetBeamEmittanceYCmd;
 
-  delete fSetNUbosonDecaysPerBunchCmd;
+  delete fSetParticleCmd;
   delete fSetUbosonMassCmd;
 
   delete fSetNThreePhotonDecaysPerBunchCmd;
@@ -356,8 +356,8 @@ void BeamMessenger::SetNewValue(G4UIcommand* cmd, G4String par)
   else if ( cmd == fSetBeamEmittanceYCmd )
     fBeamParameters->SetBeamEmittanceY(fSetBeamEmittanceYCmd->GetNewDoubleValue(par));
 
-  else if ( cmd == fSetNUbosonDecaysPerBunchCmd )
-    fBeamParameters->SetNUbosonDecaysPerBunch(fSetNUbosonDecaysPerBunchCmd->GetNewIntValue(par));
+  else if ( cmd == fSetParticleCmd )
+    fBeamParameters->SetParticle(fSetParticleCmd->GetNewIntValue(par));
 
   else if ( cmd == fSetUbosonMassCmd )
     fBeamParameters->SetUbosonMass(fSetUbosonMassCmd->GetNewDoubleValue(par));
@@ -458,8 +458,8 @@ G4String BeamMessenger::GetCurrentValue(G4UIcommand* cmd)
   else if ( cmd == fSetBeamEmittanceYCmd )
     cv = fSetBeamEmittanceYCmd->ConvertToString(fBeamParameters->GetBeamEmittanceY());
 
-  else if ( cmd == fSetNUbosonDecaysPerBunchCmd )
-    cv = fSetNUbosonDecaysPerBunchCmd->ConvertToString(fBeamParameters->GetNUbosonDecaysPerBunch());
+  else if ( cmd == fSetParticleCmd )
+    cv = fSetParticleCmd->ConvertToString(fBeamParameters->GetParticle());
 
   else if ( cmd == fSetUbosonMassCmd )
     cv = fSetUbosonMassCmd->ConvertToString(fBeamParameters->GetUbosonMass(),"MeV");

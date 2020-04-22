@@ -159,8 +159,9 @@ void SACRootIO::SaveEvent(const G4Event* eventG4)
     G4DCofThisEvent* theDC = eventG4->GetDCofThisEvent();
     G4int nDC = theDC->GetNumberOfCollections();
 
-    for(G4int iDC=0; iDC<nDC; iDC++) {
+#warning: hard coded index of collection
 
+    for(G4int iDC=5; iDC<6; iDC++) {
       // Handle each collection type with the right method
       G4String DCname = theDC->GetDC(iDC)->GetName();
       if (DCname == "SACDigiCollection"){

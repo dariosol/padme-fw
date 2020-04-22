@@ -211,6 +211,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     logicWorld->SetVisAttributes(G4VisAttributes::Invisible);
     //logicWorld->SetVisAttributes(G4VisAttributes(G4Colour::White()));
     physicWorld = new G4PVPlacement(0,G4ThreeVector(),logicWorld,"World",0,false,0);
+    printf("World %s %s, size: %d\n",logicWorld->GetName().data(),logicWorld->GetMaterial()->GetName().data(),fWorldLength);
 
   }
 

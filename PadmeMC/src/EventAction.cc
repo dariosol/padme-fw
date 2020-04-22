@@ -147,7 +147,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
   sacDM->Digitize();
   TPixDigitizer* tPixDM = (TPixDigitizer*)theDM->FindDigitizerModule("TPixDigitizer");
   tPixDM->Digitize();
-
+  //  theDM->List(); 
   // Save event to root file
   RootIOManager::GetInstance()->SaveEvent(evt);
 

@@ -42,6 +42,8 @@ BeamParameters::BeamParameters()
   fBeamMomentumApplySpread = true;
   fBeamMomentumSpread = 0.01*fBeamMomentum; // 1% of beam momentum
 
+  //Beam particle
+  fMyParticle = 0; //0==gamma; 1==neutron
   // Beam direction
   fBeamDirection = G4ThreeVector(0.,0.,1.);
 

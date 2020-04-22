@@ -45,7 +45,7 @@ void SACDetector::CreateGeometry()
   G4double sacSizeY = geo->GetSACSizeY();
   G4double sacSizeZ = geo->GetSACSizeZ();
   printf("SAC size is %f %f %f\n",sacSizeX,sacSizeY,sacSizeZ);
-  G4Box* solidSAC = new G4Box("SAC",0.5*sacSizeX,0.5*sacSizeY,0.5*sacSizeZ);
+  G4Box* solidSAC = new G4Box("SAC",0.5*sacSizeX,0.5*sacSizeY,sacSizeZ);
   fSACVolume = new G4LogicalVolume(solidSAC,G4Material::GetMaterial("Vacuum"),"SAC",0,0,0);
   fSACVolume->SetVisAttributes(G4VisAttributes::Invisible);
   new G4PVPlacement(0,sacPos,fSACVolume,"SAC",fMotherVolume,false,0,false);
@@ -84,7 +84,7 @@ void SACDetector::CreateGeometry()
   fCellVolume  = new G4LogicalVolume(solidCell,G4Material::GetMaterial("EJ510Paint"),"SACCell",0, 0, 0);
   fCellVolume->SetVisAttributes(G4VisAttributes(G4Colour::Magenta()));
 
-  // Position SAc crystal inside cell
+  // Position SAC crystal inside cell
   new G4PVPlacement(0,G4ThreeVector(0.,0.,0.),fCrystalVolume,"SACCry",fCellVolume,false,0,false);
 
   // Get number of rows and columns of crystals and position all crystals
@@ -92,19 +92,26 @@ void SACDetector::CreateGeometry()
   G4int nCol    = geo->GetSACNCols();
   G4int nLayers = geo->GetSACNLayers();
 
-  G4double Zoffset = 0; // in mm
-
+  G4double Zoffset = 0.;
+  
   //I should repeat the structure for different layers
   for (G4int layer=0; layer<nLayers;layer++){
-    Zoffset=140*layer;
     for (G4int row=0;row<nRow;row++){
       for (G4int col=0;col<nCol;col++){
 	if (geo->ExistsCrystalAt(row,col)) {
 	  G4ThreeVector positionCry = G4ThreeVector(geo->GetCrystalPosX(row,col),geo->GetCrystalPosY(row,col),geo->GetCrystalPosZ(row,col)+Zoffset);
-	  G4int idxCell = row*SACGEOMETRY_N_COLS_MAX+col;
-	  new G4PVPlacement(0,positionCry,fCellVolume,"SACCell",fSACVolume,false,idxCell,false);
+	  //  printf("cristal position %f %f %f\n",geo->GetCrystalPosX(row,col),geo->GetCrystalPosY(row,col),geo->GetCrystalPosZ(row,col)+Zoffset);
+	  G4int idxCell = row*SACGEOMETRY_N_COLS_MAX+col+layer*nRow*nCol;
+	  //	  printf("*******idxCell %d\n",idxCell);
+	 G4PVPlacement* daughter= new G4PVPlacement(0,positionCry,fCellVolume,"SACCell",fSACVolume,false,idxCell,false);
+	 G4LogicalVolume* daughter_log = daughter->GetLogicalVolume();
+	// if(daughter->CheckOverlaps(1000,false)){
+	//   printf("WARNING - overlaps found in %s\n",daughter_log->GetName().data());
+	//   return;
+	// }
 	}
       }
     }
+    Zoffset+=  geo->GetCellSizeZ();
   }
 }

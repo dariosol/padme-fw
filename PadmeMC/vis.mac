@@ -1,3 +1,4 @@
+
 # Macro file for the visualization of the PADME experiment
 #ModifySAC
 #
@@ -41,7 +42,7 @@
 # Disable/enable SAC/ECal analysis (WARNING! For SAC see command documentation)
 #/analysis/DisableSACAnalysis true
 /analysis/DisableECalAnalysis true
-
+			      
 # Disable/enable saving to Fast analysis Tree U102
 # uses conditions on ECal Energy, SAC energy, Hit in the Veto
 /analysis/SaveEcal  false
@@ -63,7 +64,7 @@
 /output/DisableDetectorIO EVeto
 /output/DisableDetectorIO HEPVeto
 /output/DisableDetectorIO ECal
-/output/DisableDetectorIO SAC
+#/output/DisableDetectorIO SAC
 /output/DisableDetectorIO TPix
 
 # Detector settings
@@ -118,130 +119,51 @@
 #/Detector/SetMagneticVolumeVisible
 /Detector/SetMagneticVolumeInvisible
 
-# Beam line settings
-#/Detector/BeamLine/EnableBeWindow true
-#/Detector/BeamLine/DHST002_FieldY -1.055 tesla
-#/Detector/BeamLine/EnableQuadrupoles false
-#/Detector/BeamLine/Q1_FieldGrad 5.
-#/Detector/BeamLine/Q2_FieldGrad 5.
 
-#/Detector/Target/VerboseLevel 0
-#/Detector/Target/FrontFaceZ -103. cm
-#/Detector/Target/Size 2. cm
-#/Detector/Target/Thickness 100. um
-#/Detector/Target/EnableFastDigitization
-#/Detector/Target/DisableFastDigitization
-#/Detector/Target/EnableSaveWaveformToDigi
-#/Detector/Target/DisableSaveWaveformToDigi
-
-#/Detector/ECal/VerboseLevel 0
-#/Detector/ECal/NRows 29
-#/Detector/ECal/NCols 29
-#/Detector/ECal/CrystalMapId 0
-#/Detector/ECal/CrystalSize 2.1
-#/Detector/ECal/CrystalLength 23.
-#/Detector/ECal/CrystalGap 0.12
-#/Detector/ECal/CrystalCoating 0.115
-#/Detector/ECal/TedlarThickness 0.05
-#/Detector/ECal/FrontFaceZ 244.
-#/Detector/ECal/EnablePanel true
-#/Detector/ECal/PanelThickness 1.5
-#/Detector/ECal/PanelGap 0.1
-
-#/Detector/SAC/VerboseLevel 0
-/Detector/SAC/NRows   5
-/Detector/SAC/NCols   5
-/Detector/SAC/NLayers 2
-
-#/Detector/SAC/CrystalSize 2. cm
-#/Detector/SAC/CrystalLength 14. cm
+/Detector/SAC/VerboseLevel 3
+/Detector/SAC/NRows   10
+/Detector/SAC/NCols   10
+/Detector/SAC/NLayers 4	
+/Detector/SAC/CrystalSize 2. cm
+/Detector/SAC/CrystalLength 5. cm
 #/Detector/SAC/CrystalGap 50. um
 #/Detector/SAC/CrystalCoating 100. um
 #/Detector/SAC/FrontFaceZ 300. cm
 
-#/Detector/PVeto/VerboseLevel 0
-#/Detector/PVeto/FrontFaceZ -47.255
-#/Detector/PVeto/InnerFaceX 17.75
-#/Detector/PVeto/NFingers 90
-#/Detector/PVeto/FingerSize 1.
-#/Detector/PVeto/FingerLength 17.8
-
-#/Detector/EVeto/VerboseLevel 0
-#/Detector/EVeto/FrontFaceZ -47.255
-#/Detector/EVeto/InnerFaceX  -17.75
-#/Detector/EVeto/NFingers 96
-#/Detector/EVeto/FingerSize 1.
-#/Detector/EVeto/FingerLength 17.8
-
-#/Detector/HEPVeto/VerboseLevel 0
-#/Detector/HEPVeto/NFingers 16
-#/Detector/HEPVeto/FingerStep 1.1 cm
-#/Detector/HEPVeto/FingerSize 1. cm
-#/Detector/HEPVeto/FingerLength 17.8 cm
-#/Detector/HEPVeto/DistanceToCorner 40. cm
-
-#/Detector/TPix/VerboseLevel 0
-#/Detector/TPix/NColumns 6
-#/Detector/TPix/DistanceToCorner 29.73 cm
 
 # Beam setup
 
 # Primary positrons setup (default PADMEMC configuration)
-/beam/n_e+_per_bunch 25
+# Particle 0: gamma, 1 neutron
+/beam/particle 1
+
+/beam/n_e+_per_bunch 1
 #/beam/n_e+_poisson_on true
 #/beam/bunch_structure_on true
 #/beam/bunch_time_length 250. ns
 #/beam/ubunch_time_length 150. ps
 #/beam/ubunch_time_delay 350. ps
-#/beam/position_x 0. cm
+/beam/position_x 1. cm
 #/beam/position_y 0. cm
-/beam/position_z -100. cm
+/beam/position_z -90. cm
 #/beam/position_spread_on true
 #/beam/position_x_spread 1. mm
 #/beam/position_y_spread 1. mm
-/beam/momentum 40000 MeV
-#/beam/momentum_spread_on true
+/beam/momentum 25000 MeV
+/beam/momentum_spread_on false
 #/beam/momentum_spread 5.45 MeV
-#/beam/direction 0. 0. 1.
-#/beam/emittance_on true
+/beam/direction 0. 0. 1.
+/beam/emittance_on false
 #/beam/emittance_x 1. mrad
 #/beam/emittance_y 1. mrad
-#/beam/n_uboson_per_bunch 0
 #/beam/uboson_mass 22. MeV
-#/beam/n_3g_per_bunch 0
-#/beam/3g_file ThreePhotonDecays.list
-#/beam/n_2g_per_bunch 0
-#/beam/2g_file TwoPhotonDecays.list
 #/beam/calibration false
 #/beam/calib_energy 50. MeV
 #/beam/calib_x 14. cm
 #/beam/calib_y 14. cm
 #/beam/calib_radius 1. cm
 
-# Beam Line studies: position beam at Be window
-#/beam/position_x 2247.67 mm
-#/beam/position_y 0. cm
-#/beam/position_z -1000 mm
-#/beam/direction -1. 0. 1.
-
-# Uboson generator
-#/beam/n_e+_per_bunch 1
-#/beam/n_e+_poisson_on false
-#/beam/n_uboson_per_bunch 1
-#/beam/uboson_mass 22. MeV
-
-# Example for single three photon events
-#/beam/n_e+_per_bunch 1
-#/beam/n_e+_poisson_on false
-#/beam/n_3g_per_bunch 1
-#/beam/3g_file events_ee-3g-550MeV-1M.txt
-
-# Example for single two photon events
-#/beam/n_e+_per_bunch 1
-#/beam/n_e+_poisson_on false
-#/beam/n_2g_per_bunch 1
-#/beam/2g_file ee-gg_550MeV-10M.txt
-
+#
 # Calibration run setup: single 50MeV photon pointing to a spot on ECal front face
 #/beam/calibration true
 #/beam/calib_energy 50. MeV
@@ -280,11 +202,11 @@
 
 # Choose viewpoint
 # Side view
-/vis/viewer/set/viewpointThetaPhi -90. 0. deg
+#/vis/viewer/set/viewpointThetaPhi -90. 0. deg
 # Top view
 #/vis/viewer/set/viewpointThetaPhi 90. 90. deg
 # Front view
-#/vis/viewer/set/viewpointThetaPhi 0. 0. deg
+/vis/viewer/set/viewpointThetaPhi 0. 0. deg
 # Back view
 #/vis/viewer/set/viewpointThetaPhi 180. 0. deg
 
@@ -344,9 +266,9 @@
 /vis/viewer/flush
 
 # Calo picture
-# /vis/viewer/set/viewpointThetaPhi 45. 45.
-# /vis/viewer/panTo 1. 0.
-# /Vis/viewer/zoom 4
+ /vis/viewer/set/viewpointThetaPhi 45. 45.
+ /vis/viewer/panTo -1 -0.9
+ /vis/viewer/zoom 4.5
 
 # Monitor picture
 #/vis/viewer/panTo -0.5 0.
@@ -358,4 +280,4 @@
 /vis/filtering/trajectories/attributeFilter-0/setAttribute IMag
 /vis/filtering/trajectories/attributeFilter-0/addInterval 1. MeV 100000. MeV
 
-#/run/beamOn 1	
+#/run/beamOn 100	

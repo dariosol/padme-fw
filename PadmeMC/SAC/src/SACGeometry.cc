@@ -22,13 +22,13 @@ SACGeometry::SACGeometry()
 
   fVerbose = 0; // Do not show debug output
 
-  fCrystalSizeX =  3.*cm;
-  fCrystalSizeY =  3.*cm;
-  fCrystalSizeZ = 14.*cm;
+  fCrystalSizeX =  2.*cm;
+  fCrystalSizeY =  2.*cm;
+  fCrystalSizeZ = 5.*cm;
 
-  fSACNRows = 5;
-  fSACNCols = 5;
-  fSACNLayers = 5;
+  fSACNRows = 10;
+  fSACNCols = 10;
+  fSACNLayers = 4;
 
   fCrystalGap = 50.*um;
 

@@ -93,8 +93,8 @@ public:
   G4double GetBeamEmittanceY() { return fBeamEmittanceY; }
   void SetBeamEmittanceY(G4double e) { fBeamEmittanceY = e; }
 
-  G4int GetNUbosonDecaysPerBunch()        { return fNUbosonDecaysPerBunch; }
-  void  SetNUbosonDecaysPerBunch(G4int n) { fNUbosonDecaysPerBunch = n;    }
+  G4int GetParticle()        { return fMyParticle; }
+  void  SetParticle(G4int n) { fMyParticle= n;    }
 
   G4double GetUbosonMass() { return fUbosonMass; }
   void SetUbosonMass(G4double m) { fUbosonMass = m; }
@@ -161,7 +161,7 @@ private:
   G4double fBeamEmittanceX;
   G4double fBeamEmittanceY;
 
-  // Insert Uboson decays
+  G4int fMyParticle;
   G4int fNUbosonDecaysPerBunch;
   G4double fUbosonMass;
 

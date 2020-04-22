@@ -65,7 +65,7 @@ private:
   G4UIcmdWithADoubleAndUnit* fSetBeamEmittanceXCmd;
   G4UIcmdWithADoubleAndUnit* fSetBeamEmittanceYCmd;
   
-  G4UIcmdWithAnInteger* fSetNUbosonDecaysPerBunchCmd;
+  G4UIcmdWithAnInteger* fSetParticleCmd;
   G4UIcmdWithADoubleAndUnit* fSetUbosonMassCmd;
     
   G4UIcmdWithAnInteger* fSetNThreePhotonDecaysPerBunchCmd;
