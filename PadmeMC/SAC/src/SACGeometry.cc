@@ -24,7 +24,7 @@ SACGeometry::SACGeometry()
 
   fCrystalSizeX =  2.*cm;
   fCrystalSizeY =  2.*cm;
-  fCrystalSizeZ = 5.*cm;
+  fCrystalSizeZ = 3.75*cm;
 
   fSACNRows = 10;
   fSACNCols = 10;

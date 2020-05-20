@@ -98,11 +98,7 @@ int main(int argc,char** argv)
   DetectorConstruction* detector = new DetectorConstruction;
   runManager->SetUserInitialization(detector);
 
-  //ORIGINAL PADME:  
-  // Physics list based on "official" physics models
-  // Mainly QGSP_BERT or QGSP_BIC + Optical
-  //G4VModularPhysicsList* physicsList = new PADME_PHYS;
-
+  
   //ONLY BERTINI
   //G4String plName = "FTFP_BERT";  
   //G4PhysListFactory physListFactory;
@@ -110,10 +106,15 @@ int main(int argc,char** argv)
   //runManager->SetUserInitialization(physicsList);
 
   //FROM NA62
-  PhysicsList *physList = PhysicsList::GetInstance();
-  runManager->SetUserInitialization(physList);
-  physList->SetMessengerParam(); // the params can be set here as the list will be updated by '/run/initialize' later
+//  PhysicsList *physList = PhysicsList::GetInstance();
+//  runManager->SetUserInitialization(physList);
+//  physList->SetMessengerParam(); // the params can be set here as the list will be updated by '/run/initialize' later
 
+//ORIGINAL PADME
+// Physics list based on "official" physics models
+  // Mainly QGSP_BERT or QGSP_BIC + Optical
+  G4VModularPhysicsList* physicsList = new PADME_PHYS;
+  runManager->SetUserInitialization(physicsList);
 
   // User Action classes
   G4cout << "MAIN: Constructing the generator action" << G4endl;

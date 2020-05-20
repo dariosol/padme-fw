@@ -48,7 +48,10 @@ void SACDetector::CreateGeometry()
   G4Box* solidSAC = new G4Box("SAC",0.5*sacSizeX,0.5*sacSizeY,sacSizeZ);
   fSACVolume = new G4LogicalVolume(solidSAC,G4Material::GetMaterial("Vacuum"),"SAC",0,0,0);
   fSACVolume->SetVisAttributes(G4VisAttributes::Invisible);
-  new G4PVPlacement(0,sacPos,fSACVolume,"SAC",fMotherVolume,false,0,false);
+  G4RotationMatrix* Rot = new G4RotationMatrix;
+  Rot -> rotateY(0.1*rad);
+  Rot -> rotateX(0.1*rad);
+  new G4PVPlacement(Rot,sacPos,fSACVolume,"SAC",fMotherVolume,false,0,false);
 
   // Show size of gap between crystals
   printf("Gap between SAC crystals is %f\n",geo->GetCrystalGap());
@@ -62,8 +65,6 @@ void SACDetector::CreateGeometry()
   G4double crySizeZ = geo->GetCrystalSizeZ();
   printf("SAC Crystal size is %f %f %f\n",crySizeX,crySizeY,crySizeZ);
   G4Box* solidCry  = new G4Box("SACCry",0.5*crySizeX,0.5*crySizeY,0.5*crySizeZ);
-  //fCrystalVolume  = new G4LogicalVolume(solidCry,G4Material::GetMaterial("G4_BARIUM_FLUORIDE"),"SACCry",0,0,0);
-  //fCrystalVolume  = new G4LogicalVolume(solidCry,G4Material::GetMaterial("PbGl_SF57"),"SACCry",0,0,0);
   fCrystalVolume  = new G4LogicalVolume(solidCry,G4Material::GetMaterial("PbF2"),"SACCry",0,0,0);
   fCrystalVolume->SetVisAttributes(G4VisAttributes(G4Colour::Magenta()));
 
@@ -73,6 +74,10 @@ void SACDetector::CreateGeometry()
   printf("Registering SAC SD %s\n",sacSDName.data());
   SACSD* sacSD = new SACSD(sacSDName);
   sdMan->AddNewDetector(sacSD);
+
+  //20-05-2020 ADD to track cerenkov photons
+  // sacSD->GetOptTrack()->UseOpticalTracking(); 
+
   fCrystalVolume->SetSensitiveDetector(sacSD);
 
   // Create SAC cell (PbF2 crystal+coating)

@@ -55,11 +55,17 @@ SACReconstruction::SACReconstruction(TFile* HistoFile, TString ConfigFileName)
   : PadmeVReconstruction(HistoFile, "SAC", ConfigFileName)
 {
   //  fRecoEvent = new TRecoSACEvent();
+  std::cout<<"Parsing SAC config File "<<std::endl;
+  
   ParseConfFile(ConfigFileName);
   //fChannelReco = new DigitizerChannelReco();
+  std::cout<<"Digitizing channel SAC "<<std::endl;
   fChannelReco = new DigitizerChannelSAC();
+  std::cout<<"Channel Calibration "<<std::endl;
   fChannelCalibration = new SACCalibration();
+  std::cout<<"Smiple Clusterization "<<std::endl;
   fClusterization = new SACSimpleClusterization();
+  std::cout<<"Trigger "<<std::endl;				       
   fTriggerProcessor = new PadmeVTrigger();
   fGeometry = new SACGeometry();
   fClusterizationAlgo     = (Int_t)fConfig->GetParOrDefault("RECOCLUSTER", "ClusterizationAlgo", 1);
@@ -119,79 +125,25 @@ void SACReconstruction::HistoInit(){
 SACReconstruction::~SACReconstruction()
 {;}
 
-// void SACReconstruction::Init(PadmeVReconstruction* MainReco)
-// {
-
-//   //common part for all the subdetectors
-//   PadmeVReconstruction::Init(MainReco);
-
-// }
-
-// // Read SAC reconstruction parameters from a configuration file
-// void SACReconstruction::ParseConfFile(TString ConfFileName) {
-
-//   std::ifstream confFile(ConfFileName.Data());
-//   if (!confFile.is_open()) {
-//     perror(ConfFileName);
-//     exit(1);
-//   }
-
-//   TString Line;
-//   while (Line.ReadLine(confFile)) {
-//     if (Line.BeginsWith("#")) continue;
-//   }
-//   confFile.close();
-// }
-
-/*
-TRecoVEvent * SACReconstruction::ProcessEvent(TDetectorVEvent* tEvent, Event* tGenEvent)
-{
-  //common part for all the subdetectors 
-  PadmeVReconstruction::ProcessEvent(tEvent, tGenEvent);
-
-  TSACEvent* tSACEvent = (TSACEvent*)tEvent;
-  const TClonesArray& Digis = (*(tSACEvent->GetHits()));
-  return fRecoEvent;
-}
-*/
-
-/* only for debugging printout 
-void SACReconstruction::ProcessEvent(TMCVEvent* tEvent, TMCEvent* tMCEvent)
-{
-  PadmeVReconstruction::ProcessEvent(tEvent,tMCEvent);
-  TSACMCEvent* tSACEvent = (TSACMCEvent*)tEvent;
-  std::cout << "--- SACReconstruction --- run/event/#hits/#digi " << tSACEvent->GetRunNumber() << " " << tSACEvent->GetEventNumber() << " " << tSACEvent->GetNHits() << " " << tSACEvent->GetNDigi() << std::endl;
-  for (Int_t iH=0; iH<tSACEvent->GetNHits(); iH++) {
-    TSACMCHit* hit = (TSACMCHit*)tSACEvent->Hit(iH);
-    hit->Print();
-  }
-  for (Int_t iD=0; iD<tSACEvent->GetNDigi(); iD++) {
-    TSACMCDigi* digi = (TSACMCDigi*)tSACEvent->Digi(iD);
-  //------
-    Int_t ch = digi->GetChannelId();
-    Int_t iX = ch/10;
-    Int_t iY = ch%10;
-    cout<<"X "<<iX<<" Y "<<iY<<endl;
-    //------
-    digi->Print();
-  }
-}
-*/
-
-// void SACReconstruction::EndProcessing()
-// {;}
 
 //  Last revised by M. Raggi 16/11/2018 
 void SACReconstruction::BuildClusters()
 {
-  if      (fClusterizationAlgo==1) SACReconstruction::BuildSimpleSACClusters();
-  else if (fClusterizationAlgo==2) PadmeVReconstruction::BuildClusters();
+  if      (fClusterizationAlgo==1) {
+    std::cout<<" In building clusters, doing simple sac cluster "<<std::endl;
+    SACReconstruction::BuildSimpleSACClusters();
+  }
+  
+  else if (fClusterizationAlgo==2) {
+    std::cout<<" In building clusters, doing simple sac cluster "<<std::endl;
+    PadmeVReconstruction::BuildClusters();
+  }
   return;   
 }
 
 void SACReconstruction::BuildSimpleSACClusters(){
 
-  //std::cout<<"In SACBuildClusters "<<std::endl;
+  std::cout<<"In SACBuildClusters "<<std::endl;
   vector<TRecoVCluster *> &myClusters  = GetClusters();
   for(unsigned int iCl = 0;iCl < myClusters.size();iCl++){
     delete myClusters[iCl];
@@ -212,16 +164,18 @@ void SACReconstruction::BuildSimpleSACClusters(){
   SdCell.clear();
 
 
-  const int NMaxCl=100;
-  const int NRows=5;
-  const int NCols=5;
-  const int NTotCh=NRows*NCols;
+  const int NMaxCl=400;
+  const int NRows=10;
+  const int NCols=10;
+  const int NLayers=4;
+  
+  const int NTotCh=NRows*NCols*NLayers;
   double TTotSACCh[NTotCh][NMaxCl];
   double ETotSACCh[NTotCh][NMaxCl];
   Double_t Time=0;
  
   vector<TRecoVHit *> &Hits  = GetRecoHits();
-  //std::cout<<"In SACBuildClusters ... n. of input hits = "<<Hits.size()<<std::endl;
+  std::cout<<"In SACBuildClusters ... n. of input hits = "<<Hits.size()<<std::endl;
   int NCry=0;
   if(Hits.size()==0){
     //    std::cout<<"No hits !!!!"<<std::endl;
@@ -367,8 +321,10 @@ void SACReconstruction::BuildSimpleSACClusters(){
 void SACReconstruction::AnalyzeEvent(TRawEvent* rawEv){
   static int nevt;
   static TCanvas c;
- 
+  std::cout<<"ANALYZE THE EVENT"<<std::endl;
   vector<TRecoVHit *> &Hits  = GetRecoHits();
+  std::cout<<"nHits: "<<Hits.size()<<std::endl;
+
   //  return;
   Double_t Energy=0;
   Double_t ECh[25];
@@ -401,7 +357,7 @@ void SACReconstruction::AnalyzeEvent(TRawEvent* rawEv){
     //GetHisto("SACOccupancy") -> Fill(-(ich%5-4),ich/5);
     GetHisto("SACTime") -> Fill(Time);
     GetHisto("SACVoters")->Fill((double)Time,(double)ElCh);
-    //    std::cout<<"Energy "<<Hits[iHit1]->GetEnergy()<<" Time "<<Time<<" ich "<<ich<<std::endl;
+    std::cout<<"Energy "<<Hits[iHit1]->GetEnergy()<<" Time "<<Time<<" ich "<<ich<<std::endl;
     //    votes[(Int_t)Time]++;
     // ESums[(Int_t)Time]+=Hits[iHit1]->GetEnergy();
   }
@@ -505,7 +461,7 @@ void SACReconstruction::AnalyzeEvent(TRawEvent* rawEv){
 
 
 void SACReconstruction::ConvertMCDigitsToRecoHits(TMCVEvent* tEvent,TMCEvent* tMCEvent) {
-
+  std::cout<<"ConvertMCDigisToRecoHits"<<std::endl;
   if (tEvent==NULL) return;
   fHits.clear();
 

@@ -1,7 +1,8 @@
 #SIMULATION FROM NA62
 #/Simulation/ListPhysics
-/Simulation/Physics QGSP_FTFP_BERT
+#/Simulation/Physics QGSP_FTFP_BERT
 #/Simulation/Physics FTFP_BERT
+/settings/AutomaticRandomSeed false
 
 # Disable IO for single detectors
 /output/DisableDetectorIO Target
@@ -26,21 +27,24 @@
 
 /Detector/DisableMagneticField
 
-/Detector/SAC/VerboseLevel 3
+/Detector/SAC/VerboseLevel 0
 /Detector/SAC/NRows   10
 /Detector/SAC/NCols   10
-/Detector/SAC/NLayers 4	
+/Detector/SAC/NLayers 4
 /Detector/SAC/CrystalSize 2. cm
-/Detector/SAC/CrystalLength 5. cm
+/Detector/SAC/CrystalLength 3.75. cm
 #/Detector/SAC/CrystalGap 50. um
 #/Detector/SAC/CrystalCoating 100. um
 #/Detector/SAC/FrontFaceZ 300. cm
+
+/output/EnableDetectorIO SAC:HD
+
 
 # Beam setup
 
 # Primary positrons setup (default PADMEMC configuration)
 # Particle 0: gamma, 1 neutron
-/beam/particle 1
+/beam/particle 0
 
 /beam/n_e+_per_bunch 1
 #/beam/n_e+_poisson_on true
@@ -48,19 +52,19 @@
 #/beam/bunch_time_length 250. ns
 #/beam/ubunch_time_length 150. ps
 #/beam/ubunch_time_delay 350. ps
-/beam/position_x 1. cm
-#/beam/position_y 0. cm
+/beam/position_x 0. cm
+/beam/position_y 0. cm
 /beam/position_z -90. cm
-#/beam/position_spread_on true
-#/beam/position_x_spread 1. mm
-#/beam/position_y_spread 1. mm
+/beam/position_spread_on true
+/beam/position_x_spread 10. mm
+/beam/position_y_spread 10. mm
 /beam/momentum 25000 MeV
-/beam/momentum_spread_on false
-#/beam/momentum_spread 5.45 MeV
+/beam/momentum_spread_on true
+/beam/momentum_spread 5.45 MeV
 /beam/direction 0. 0. 1.
-/beam/emittance_on false
-#/beam/emittance_x 1. mrad
-#/beam/emittance_y 1. mrad
+/beam/emittance_on true
+/beam/emittance_x 1. mrad
+/beam/emittance_y 1. mrad
 #/beam/uboson_mass 22. MeV
 #/beam/calibration false
 #/beam/calib_energy 50. MeV
