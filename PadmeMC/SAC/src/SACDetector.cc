@@ -75,9 +75,6 @@ void SACDetector::CreateGeometry()
   SACSD* sacSD = new SACSD(sacSDName);
   sdMan->AddNewDetector(sacSD);
 
-  //20-05-2020 ADD to track cerenkov photons
-  // sacSD->GetOptTrack()->UseOpticalTracking(); 
-
   fCrystalVolume->SetSensitiveDetector(sacSD);
 
   // Create SAC cell (PbF2 crystal+coating)

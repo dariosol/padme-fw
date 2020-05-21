@@ -3,6 +3,7 @@
 
 #include "G4VSensitiveDetector.hh"
 #include "SACHit.hh"
+#include "SACOptTrack.hh"
 
 class G4Step;
 class G4HCofThisEvent;
@@ -19,9 +20,10 @@ class SACSD : public G4VSensitiveDetector
       G4bool ProcessHits(G4Step*, G4TouchableHistory*);
       G4int ClassifyTrack(G4Track* track);
       void EndOfEvent(G4HCofThisEvent*);
-
+      SACOptTrack *GetOptTrack() {return &OpticalTracker;}
   private:
       SACHitsCollection* fSACCollection;
+      SACOptTrack OpticalTracker;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
