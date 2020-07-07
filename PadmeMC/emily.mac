@@ -292,4 +292,4 @@
 /vis/filtering/trajectories/attributeFilter-0/setAttribute IMag
 /vis/filtering/trajectories/attributeFilter-0/addInterval 1.0 MeV 100000.0 MeV
 
-# /run/beamOn 1
+/run/beamOn 1
