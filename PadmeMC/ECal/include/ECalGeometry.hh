@@ -249,9 +249,9 @@ public:
   G4double GetECalSupportLatticeXmPosY() { return -0.5*fECalSupportSizeY+fECalSupportSideThickness+0.5*fECalSupportLatticeThickness+5.*um; }
   G4double GetECalSupportLatticeXmPosZ() { return 0.5*(fECalSupportFrontThickness-fECalSupportBackThickness); }
 
-  G4double GetECalSupportLatticeXCellPosX(G4int x, G4int z) { return -0.5*GetECalSupportLatticeXSizeX()+(x+0.5)*GetECalSupportLatticeCellWidth(); }
-  G4double GetECalSupportLatticeXCellPosY(G4int x, G4int z) { return 0.; }
-  G4double GetECalSupportLatticeXCellPosZ(G4int x, G4int z) { return -0.5*GetECalSupportLatticeXSizeZ()+(z+0.5)*GetECalSupportLatticeCellLength(); }
+  G4double GetECalSupportLatticeXCellPosX(G4int x) { return -0.5*GetECalSupportLatticeXSizeX()+(x+0.5)*GetECalSupportLatticeCellWidth(); }
+  G4double GetECalSupportLatticeXCellPosY() { return 0.0; }
+  G4double GetECalSupportLatticeXCellPosZ(G4int z) { return -0.5*GetECalSupportLatticeXSizeZ()+(z+0.5)*GetECalSupportLatticeCellLength(); }
 
   G4double GetECalSupportLatticeYSizeX() { return fECalSupportLatticeThickness; }
   G4double GetECalSupportLatticeYSizeY() { return fECalSupportLatticeNCellXY*GetECalSupportLatticeCellWidth(); }
@@ -263,9 +263,9 @@ public:
   G4double GetECalSupportLatticeYmPosY() { return 0.; }
   G4double GetECalSupportLatticeYmPosZ() { return 0.5*(fECalSupportFrontThickness-fECalSupportBackThickness); }
 
-  G4double GetECalSupportLatticeYCellPosX(G4int y, G4int z) { return 0.; }
-  G4double GetECalSupportLatticeYCellPosY(G4int y, G4int z) { return -0.5*GetECalSupportLatticeYSizeY()+(y+0.5)*GetECalSupportLatticeCellWidth(); }
-  G4double GetECalSupportLatticeYCellPosZ(G4int y, G4int z) { return -0.5*GetECalSupportLatticeYSizeZ()+(z+0.5)*GetECalSupportLatticeCellLength(); }
+  G4double GetECalSupportLatticeYCellPosX() { return 0.; }
+  G4double GetECalSupportLatticeYCellPosY(G4int y) { return -0.5*GetECalSupportLatticeYSizeY()+(y+0.5)*GetECalSupportLatticeCellWidth(); }
+  G4double GetECalSupportLatticeYCellPosZ(G4int z) { return -0.5*GetECalSupportLatticeYSizeZ()+(z+0.5)*GetECalSupportLatticeCellLength(); }
 
   G4double GetECalSupportCornerSizeX() { return 0.5*(GetECalSupportCavitySizeX()-GetECalSupportLatticeXSizeX()-10.*um); }
   G4double GetECalSupportCornerSizeY() { return 0.5*(GetECalSupportCavitySizeY()-GetECalSupportLatticeYSizeY()-10.*um); }
@@ -364,7 +364,7 @@ private:
 
   G4double fDigiEtoNPEConversion; // Number of p.e. produced by photocathode per MeV of hit energy
   G4double fDigiPEtoSignalConversion; // Contribution of 1 p.e. to integral ADC signal
- 
+
   std::vector<G4double> fDigiPECollectionMap; // Relative collection efficiency along crystal
 
   G4double fDigiPMTTransitTime; // PMT transit time from photocathode to anode

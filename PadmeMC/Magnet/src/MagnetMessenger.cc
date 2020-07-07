@@ -31,5 +31,5 @@ MagnetMessenger::~MagnetMessenger()
 
 }
 
-void MagnetMessenger::SetNewValue(G4UIcommand* cmd, G4String par)
-{;}
+// void MagnetMessenger::SetNewValue()
+// {;}

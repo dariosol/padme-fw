@@ -1,6 +1,6 @@
 #include "globals.hh"
 #include "Randomize.hh"
- 
+
 #include "G4Event.hh"
 #include "G4EventManager.hh"
 #include "G4TrajectoryContainer.hh"
@@ -33,7 +33,7 @@ extern double NNeutrons;
 extern double Npionc;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
- 
+
 EventAction::EventAction(RunAction* run)
 :fRunAct(run)
 {
@@ -46,10 +46,10 @@ EventAction::EventAction(RunAction* run)
   // Default printout once every 100 events
   fPrintoutFrequency = 100;
 
-  //M. Raggi defining default output settings 
+  //M. Raggi defining default output settings
   fEnableSaveEcal = 1;
-  fEnableSaveSAC  = 0; 
-  fEnableSaveVeto = 0; 
+  fEnableSaveSAC  = 0;
+  fEnableSaveVeto = 0;
 
   // Create and register digitizer modules for all detectors
   G4DigiManager* theDM = G4DigiManager::GetDMpointer();
@@ -70,12 +70,12 @@ EventAction::EventAction(RunAction* run)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
- 
+
 EventAction::~EventAction()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
- 
+
 void EventAction::BeginOfEventAction(const G4Event*)
 {
 
@@ -84,8 +84,8 @@ void EventAction::BeginOfEventAction(const G4Event*)
   ECalHitT = 0;
   CalEvtT  = 0;
   ClPosX   = 0;
-  ClPosY   = 0; 
-  ProcID   = 0; 
+  ClPosY   = 0;
+  ProcID   = 0;
   NClusters= 0;
   NTracks  = 0;
 
@@ -108,7 +108,7 @@ void EventAction::BeginOfEventAction(const G4Event*)
   for(G4int i=0;i<ECalNCells;i++){Used[i]=0;}
   //for(G4int i=0;i<TrackerNRings;i++){UsedRing[i]=0;}
   for(G4int i=0;i<ECalNCells;i++){Empty[i]=0;}
-  
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -118,18 +118,18 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 
   G4int event_id = evt->GetEventID();
   // Periodic printing
-  //if (event_id < 1 || event_id%NPrint == 0) G4cout << ">>> Event " << event_id << G4endl;
-  if (event_id%fPrintoutFrequency == 0) {
-    int vmsize;
-    if (event_id == 0) {
-      vmsize = SystemInfo::GetInstance()->store_vmsize();
-    } else {
-      vmsize = SystemInfo::GetInstance()->vmsize();
-    }
-    char now_str[20];
-    SystemInfo::GetInstance()->timefmt_gm(now_str);
-    G4cout << ">>> " << now_str << " - Event " << event_id << " - VmSize " << vmsize << " kB - dVmSize " << SystemInfo::GetInstance()->delta_vmsize() << " kB" << G4endl;
-  }
+  if (event_id < 1 || event_id % fPrintoutFrequency == 0) G4cout << ">>> Event " << event_id << " >>>"<< G4endl;
+  // if (event_id % fPrintoutFrequency == 0) {
+  //   int vmsize;
+  //   if (event_id == 0) {
+  //     vmsize = SystemInfo::GetInstance()->store_vmsize();
+  //   } else {
+  //     vmsize = SystemInfo::GetInstance()->vmsize();
+  //   }
+  //   char now_str[20];
+  //   SystemInfo::GetInstance()->timefmt_gm(now_str);
+  //   G4cout << ">>> " << now_str << " - Event " << event_id << " - VmSize " << vmsize << " kB - dVmSize " << SystemInfo::GetInstance()->delta_vmsize() << " kB" << G4endl;
+  // }
 
   // Digitize this event
   G4DigiManager* theDM = G4DigiManager::GetDMpointer();
@@ -147,7 +147,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
   sacDM->Digitize();
   TPixDigitizer* tPixDM = (TPixDigitizer*)theDM->FindDigitizerModule("TPixDigitizer");
   tPixDM->Digitize();
-  //  theDM->List(); 
+  //  theDM->List();
   // Save event to root file
   RootIOManager::GetInstance()->SaveEvent(evt);
 
@@ -186,8 +186,8 @@ void EventAction::EndOfEventAction(const G4Event* evt)
   G4double BeamY  = myStepping->GetPositronY();
   //G4double BeamZ  = myStepping->GetPositronZ();
   G4double PrimE  = myStepping->GetPrimE();
-  
-  
+
+
   G4ThreeVector PositronMomentum = myStepping->GetPositronMomentum();
   // G4cout << " Getting the momentum to store:   " << PositronMomentum << G4endl;
 
@@ -195,7 +195,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
   fHistoManager->myEvt.PMomY = PositronMomentum.y();
   fHistoManager->myEvt.PMomZ = PositronMomentum.z();
 
-  ProcID = myStepping->GetPhysProc();   
+  ProcID = myStepping->GetPhysProc();
   fHistoManager->FillHisto(1,ETotCal);
   fHistoManager->FillHisto(14,ProcID);
   //fHistoManager->FillHisto(15,BeamZ);
@@ -204,7 +204,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 
   if(ProcID==1) fHistoManager->FillHisto2(31,myStepping->GetGammaEnergy(),myStepping->GetGammaAngle(),1.);
   if(ProcID==2) fHistoManager->FillHisto2(32,myStepping->GetGammaEnergy(),myStepping->GetGammaAngle(),1.);
-  
+
   if(NClusters>0){
     fHistoManager->FillHisto2(33,myStepping->GetGammaEnergy(),myStepping->GetGammaAngle(),1.);
     if(ProcID==1) fHistoManager->FillHisto2(34,myStepping->GetGammaEnergy(),myStepping->GetGammaAngle(),1.);
@@ -230,13 +230,13 @@ void EventAction::EndOfEventAction(const G4Event* evt)
   fHistoManager->myEvt.NTPriBeam  = PrimE;
   fHistoManager->myEvt.NTXBeam    = BeamX;
   fHistoManager->myEvt.NTYBeam    = BeamY;
-  
+
   fHistoManager->myEvt.NTETarget  = ETarget; //capisci come fare per 10^4 event per burst
   fHistoManager->myEvt.NTTTarget  = TTarget;
   fHistoManager->myEvt.NTXTarget  = XTarget;
   fHistoManager->myEvt.NTYTarget  = YTarget;
 
-  for(int i=0;i<SACTracks;i++){	  
+  for(int i=0;i<SACTracks;i++){
     if(i>MaxTracks-1) break;
     //    G4cout<<evt->GetEventID()<<" Event action NSAC Tr "<<SACTracks<<" "<< SACEtrack[i]<<" "<<SACTrackTime[i]<<G4endl;
     fHistoManager->myEvt.NTSACE[i]     = SACEtrack[i];
@@ -256,17 +256,17 @@ void EventAction::EndOfEventAction(const G4Event* evt)
     fHistoManager->myEvt.NTCalPartX[i]     =  CalX[i];
     fHistoManager->myEvt.NTCalPartY[i]     =  CalY[i];
   }
-  
+
   for(int i=0;i<LAVTracks;i++){
     if(i>100) break;
 
     fHistoManager->myEvt.NTLAVE    [i] = LAVEtrack[i];
     fHistoManager->myEvt.NTLAVT    [i] = LAVTrackTime[i];
     fHistoManager->myEvt.NTLAVPType[i] = LAVPType[i];
-    fHistoManager->myEvt.NTLAVX    [i] =LAVX[i]; 
+    fHistoManager->myEvt.NTLAVX    [i] =LAVX[i];
     fHistoManager->myEvt.NTLAVY    [i] =LAVY[i] ;
   }
-  
+
   for(int i=0;i<NHEPVetoTracks;i++){  //BUG on number of channel!
 	  if(i>MaxTracks-1) break;
 	  fHistoManager->myEvt.NTHEPVetoTrkEne[i]    = HEPVetoEtrack[i];
@@ -327,13 +327,13 @@ void EventAction::EndOfEventAction(const G4Event* evt)
     }
   }
 
-  for(int i=0;i<NClusters;i++){	
+  for(int i=0;i<NClusters;i++){
     //    G4cout<<"DDD CALO"<<EneCl[i]<<" "<<NTQCl[i]<<G4endl;
-    if(i>19) break;              
+    if(i>19) break;
     fHistoManager->myEvt.NTECluster[i]  = EneCl[i];
     fHistoManager->myEvt.NTQCluster[i]  = QCl[i];
-    fHistoManager->myEvt.NTXCluster[i]  = XCl[i];   
-    fHistoManager->myEvt.NTYCluster[i]  = YCl[i];   
+    fHistoManager->myEvt.NTXCluster[i]  = XCl[i];
+    fHistoManager->myEvt.NTYCluster[i]  = YCl[i];
     fHistoManager->myEvt.NTThCluster[i] = ThCl[i];
     fHistoManager->myEvt.NTM2Cluster[i] = MM2[i];
     fHistoManager->myEvt.NTTCluster[i]  = TimeCl[i];
@@ -356,8 +356,9 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 //  if(ETotCal>EMinSaveNT || SACTracks>0) fHistoManager->FillNtuple(&(fHistoManager->myEvt));
 
 
-  if( (ETotCal>5. && fEnableSaveEcal) || (SACTracks>0 && fEnableSaveSAC) || (NTracks>0 &&  fEnableSaveVeto) ){ 
-    fHistoManager->FillNtuple(&(fHistoManager->myEvt));
+  if( (ETotCal>5. && fEnableSaveEcal) || (SACTracks>0 && fEnableSaveSAC) || (NTracks>0 &&  fEnableSaveVeto) ){
+    // fHistoManager->FillNtuple(&(fHistoManager->myEvt)); Emily commented this out in a quest to run PADMEMC
+	fHistoManager->FillNtuple();
   }else{
     //    G4cout<<"No event saved in the FastMC output"<<NTracks<<" "<<fEnableSaveVeto<<G4endl;
   }
@@ -371,18 +372,18 @@ void EventAction::AddECryHits(ECalHitsCollection* hcont)
   //G4double ETotEvt=0;
   G4int nHits = hcont->entries();
 
-  G4double NRows= Egeom->GetECalNRows();  // righe sulla y 
+  G4double NRows= Egeom->GetECalNRows();  // righe sulla y
   G4double NCols= Egeom->GetECalNCols(); // colonne sulla X
 
   for(G4int jj=0;jj<NRows;jj++){
     for(G4int kk=0;kk<NCols;kk++){
-      MatEtot  [jj][kk]=0.;   
-      MatQtot  [jj][kk]=0.;   
-      MatTstart[jj][kk]=1.e6; 
-      MatUsed  [jj][kk]=0;   
+      MatEtot  [jj][kk]=0.;
+      MatQtot  [jj][kk]=0.;
+      MatTstart[jj][kk]=1.e6;
+      MatUsed  [jj][kk]=0;
     }
   }
-  
+
   // Copy all hits from G4 to ROOT event
   //  std::cout << "Number of ECAL hits: " <<  nHits << std::endl;
   for (G4int h=0; h<nHits; h++) {
@@ -398,24 +399,24 @@ void EventAction::AddECryHits(ECalHitsCollection* hcont)
       if(hit->GetTime() < MatTstart[Yind][Xind]) MatTstart[Yind][Xind] =  hit->GetTime();//assing to each crystal the time of the first hit!
     }
   }//end of loop on hits
-  
+
   for(int xx=0;xx<NCols;xx++){
     for(int yy=0;yy<NRows;yy++){
       MatQtot[yy][xx]=GetCharge(MatEtot[yy][xx]);
     }
   }
-  
+
 }
 void EventAction::FindClusters()
 {
   //  G4int NcellsCl=0;
-  G4double NRows= Egeom->GetECalNRows();  // righe sulla y 
+  G4double NRows= Egeom->GetECalNRows();  // righe sulla y
   G4double NCols= Egeom->GetECalNCols(); // colonne sulla X
   NClusters=0;
   while(1){
     G4int SeedIndX=-1;
     G4int SeedIndY=-1;
-    G4double EMax = 0.; 
+    G4double EMax = 0.;
 
     //Seed Search
     for(G4int jj=0;jj<NRows;jj++){
@@ -423,12 +424,12 @@ void EventAction::FindClusters()
 	if(!MatUsed[jj][kk] && MatEtot[jj][kk]>EMax){
 	  SeedIndX = kk;
 	  SeedIndY = jj;
-	  EMax     = MatEtot[jj][kk]; 
+	  EMax     = MatEtot[jj][kk];
 	}
       }
     }
     if( EMax < SeedE ) break;  // Attenzione SeedE in Constants.hh
-     
+
     EneCl[NClusters]   =0;
     QCl[NClusters]     =0;
     XCl[NClusters]     =0;
@@ -437,7 +438,7 @@ void EventAction::FindClusters()
     MM2[NClusters]     =0;
     TimeCl[NClusters]  =0;
     NCellsCl[NClusters]=0;
-    
+
     G4int NAddCl=2;
     for(G4int jj=SeedIndY-NAddCl; jj<=SeedIndY+NAddCl; jj++){
       if(jj>=0 && jj<NRows){
@@ -453,12 +454,12 @@ void EventAction::FindClusters()
 	      NCellsCl[NClusters]++;
 	    }
 	  }
-	}    
+	}
       }
     }
-    TimeCl[NClusters]/= EneCl[NClusters];     
-    XCl[NClusters]   /= EneCl[NClusters];     
-    YCl[NClusters]   /= EneCl[NClusters];     
+    TimeCl[NClusters]/= EneCl[NClusters];
+    XCl[NClusters]   /= EneCl[NClusters];
+    YCl[NClusters]   /= EneCl[NClusters];
 
     G4double DxDz=XCl[NClusters]/(Egeom->GetECalFrontFacePosZ() - Tgeom->GetTargetFrontFacePosZ() );
     G4double DyDz=YCl[NClusters]/(Egeom->GetECalFrontFacePosZ() - Tgeom->GetTargetFrontFacePosZ() );
@@ -475,26 +476,26 @@ void EventAction::FindClusters()
     GMom[0]= DxDz/norma * EneCl[NClusters]/0.97;
     GMom[1]= DyDz/norma * EneCl[NClusters]/0.97;
     GMom[2]= 1./norma   * EneCl[NClusters]/0.97;
-    GMom[3]= EneCl[NClusters]/0.97;         
-    
+    GMom[3]= EneCl[NClusters]/0.97;
+
     //The target electron is at rest
     TargetEleMom[0]=0.;
     TargetEleMom[1]=0.;
     TargetEleMom[2]=0.;
     TargetEleMom[3]=0.511;
-    
+
     G4ThreeVector BDir=Bpar->GetBeamDirection().unit();
-    //Beam Momentum from Beam Paramets class 
+    //Beam Momentum from Beam Paramets class
     BeamMom[0]=BDir.x()*Bpar->GetBeamMomentum();
     BeamMom[1]=BDir.y()*Bpar->GetBeamMomentum();
     BeamMom[2]=BDir.z()*Bpar->GetBeamMomentum();
-    BeamMom[3]=sqrt(Bpar->GetBeamMomentum()*Bpar->GetBeamMomentum()+0.511*0.511); 
-    
-    for (int i=0; i<4; i++){ 
+    BeamMom[3]=sqrt(Bpar->GetBeamMomentum()*Bpar->GetBeamMomentum()+0.511*0.511);
+
+    for (int i=0; i<4; i++){
       P4Miss[i]=TargetEleMom[i]+BeamMom[i]-GMom[i];
     }
     MM2[NClusters] = P4Miss[3]*P4Miss[3]-P4Miss[2]*P4Miss[2]-P4Miss[1]*P4Miss[1]-P4Miss[0]*P4Miss[0];
-  
+
     G4double product=0.;
     G4double BDire[3];
 
@@ -506,7 +507,7 @@ void EventAction::FindClusters()
     ThCl[NClusters] = acos (product);//* 180.0 / 3.14159265;
     //    printf("Th Cl %f\n",ThCl[NClusters]);
 
-    G4double ProcID = myStepping->GetPhysProc();    
+    G4double ProcID = myStepping->GetPhysProc();
     printf("PROCID %f\n",ProcID);
     if(ProcID==1) fHistoManager->FillHisto2(8,EneCl[NClusters],ThCl[NClusters],1.); //Nclus==1
     if(ProcID==2) fHistoManager->FillHisto2(9,EneCl[NClusters],ThCl[NClusters],1.); //Nclus==2
@@ -517,11 +518,11 @@ void EventAction::FindClusters()
       fHistoManager->FillHisto(15,QCl[NClusters]);
     }
     NClusters++;
-    //if(NClusters==2 && fabs(TimeCl[0]-TimeCl[1]<2.) ){ 
+    //if(NClusters==2 && fabs(TimeCl[0]-TimeCl[1]<2.) ){
     // G4double mgg= GGMass();
     // fHistoManager->FillHisto(16,mgg);
     //}
-    if(NClusters>19){ 
+    if(NClusters>19){
       G4cout<<"too many clusters \n!!"<<G4endl;
       break;
     }
@@ -532,6 +533,7 @@ void EventAction::FindClusters()
 void EventAction::AddTargetHits(TargetHitsCollection* hcont)  //Target readout module
 {
   G4int nHits = hcont->entries();
+  G4cout << "DEBUG: why only go through the for loop once :(" << G4endl;
   for (G4int h=0; h<nHits; h++) {
     TargetHit * hit = (*hcont)[h]; //prende l'elemento h del vettore hit
     if ( hit != 0 ) {
@@ -542,7 +544,7 @@ void EventAction::AddTargetHits(TargetHitsCollection* hcont)  //Target readout m
       NTarget++;
 
       // Beam structure control histogras M. Raggi 2/04/2019
-      G4double hTime  = hit->GetTime();
+      // G4double hTime  = hit->GetTime();
       G4double hE     = hit->GetEnergy();        // deposited energy
       G4double hTrE   = hit->GetTrackEnergy();   // track energy
       G4double hX     = hit->GetLocalPosX();
@@ -550,23 +552,27 @@ void EventAction::AddTargetHits(TargetHitsCollection* hcont)  //Target readout m
       G4bool IsPrimary = hit->IsPrimary(); //identify primary positrons
       // computing angle at the entrance of the target using the directions of the particles:
       G4double ProjVectorMod = sqrt(hit->GetPX()*hit->GetPX()+hit->GetPZ()*hit->GetPZ());  //modulo della proiezione del vettore nel piano X Z
-      // Ucos(theta)=Uz  --> cos(theta)=Uz/U --> theta=acos(Uz/U)  
+      // Ucos(theta)=Uz  --> cos(theta)=Uz/U --> theta=acos(Uz/U)
       G4double htheta = acos( hit->GetPZ()/ProjVectorMod );
 
       //      G4cout<<"angle: PX "<<hit->GetPX()<<" PY "<<hit->GetPZ()<<" theta "<< htheta << G4endl;
       if(IsPrimary){
 	fHistoManager->FillHisto(60,hE);     // All hit energies
 	fHistoManager->FillHisto(61,htheta); // after the target
-	fHistoManager->FillHisto(62,hX);     // 
-	fHistoManager->FillHisto(63,hY);     // 
+	fHistoManager->FillHisto(62,hX);     //
+	fHistoManager->FillHisto(63,hY);     //
 	fHistoManager->FillHisto(64,hTrE);   // At the target entrance
-	
-	fHistoManager->FillHisto2(65,hX,hY,1.);   //X vs Y local coordinates 
+
+	fHistoManager->FillHisto2(65,hX,hY,1.);   //X vs Y local coordinates
 	fHistoManager->FillHisto2(66,hX,hTrE,1.); //X vs Track energy
 	fHistoManager->FillHisto2(67,hX,htheta,1.); //X vs Track energy
       }
     }
   }//end of loop
+  G4cout << "XTarget: " << XTarget << G4endl;
+  G4cout << "YTarget: " << YTarget << G4endl;
+  NTarget = 1.0;
+  G4cout << "NTarget: " << NTarget << G4endl;
   XTarget/=NTarget;
   YTarget/=NTarget;
 }
@@ -584,25 +590,25 @@ void EventAction::AddBeWHits(BeWHitsCollection* hcont)  //BeW readout module
       NBeW++;
 
       // Beam structure control histogras M. Raggi 2/04/2019
-      G4double hTime  = hit->GetTime();
+      // G4double hTime  = hit->GetTime();
       G4double hE     = hit->GetEnergy();        // deposited energy
       G4double hTrE   = hit->GetTrackEnergy();   // track energy
       G4double hX     = hit->GetLocalPosX();
       G4double hY     = hit->GetLocalPosY();
       // computing angle at the entrance of the target using the directions of the particles:
       G4double ProjVectorMod = sqrt(hit->GetPX()*hit->GetPX()+hit->GetPZ()*hit->GetPZ());  //modulo della proiezione del vettore nel piano X Z
-      // Ucos(theta)=Uz  --> cos(theta)=Uz/U --> theta=acos(Uz/U)  
+      // Ucos(theta)=Uz  --> cos(theta)=Uz/U --> theta=acos(Uz/U)
       G4double htheta = acos( hit->GetPZ()/ProjVectorMod );
 
       //      G4cout<<"angle: PX "<<hit->GetPX()<<" PY "<<hit->GetPZ()<<" theta "<< htheta << G4endl;
 
       fHistoManager->FillHisto(70,hE);     // All hit energies
       fHistoManager->FillHisto(71,htheta); // after the target
-      fHistoManager->FillHisto(72,hX);     // 
-      fHistoManager->FillHisto(73,hY);     // 
+      fHistoManager->FillHisto(72,hX);     //
+      fHistoManager->FillHisto(73,hY);     //
       fHistoManager->FillHisto(74,hTrE);   // At the target entrance
-      
-      fHistoManager->FillHisto2(75,hX,hY,1.);   //X vs Y local coordinates 
+
+      fHistoManager->FillHisto2(75,hX,hY,1.);   //X vs Y local coordinates
       fHistoManager->FillHisto2(76,hX,hTrE,1.); //X vs Track energy
       fHistoManager->FillHisto2(77,hX,htheta,1.); //X vs Track energy
     }
@@ -634,12 +640,12 @@ void EventAction::AddHEPVetoHits(HEPVetoHitsCollection* hcont)
 {
   //G4double ETotHEPVetoEvt=0.;
   for(G4int jj=0;jj<MaxTracks;jj++){
-    ETotHEPVeto[jj]=0.0;							
+    ETotHEPVeto[jj]=0.0;
     HEPVetoTrackCh[jj]=0;
     HEPVetoTrackTime[jj]=0;
     HEPVetoX[jj]=0;
     HEPVetoY[jj]=0;
-    
+
   }
   for(int iBar=0;iBar<NPVetoBars;iBar++){
     HEPVetoClIndex[iBar] = 0;
@@ -650,7 +656,7 @@ void EventAction::AddHEPVetoHits(HEPVetoHitsCollection* hcont)
   }
 
   G4int nHits = hcont->entries();
-  for (G4int h=0; h<nHits; h++) {		
+  for (G4int h=0; h<nHits; h++) {
     HEPVetoHit* hit = (*hcont)[h]; //prende l'elemento h del vettore hit
 
     if ( hit != 0 ) {
@@ -665,7 +671,7 @@ void EventAction::AddHEPVetoHits(HEPVetoHitsCollection* hcont)
       for(int iCluster = 0; iCluster < HEPVetoClIndex[iBar] ; iCluster++) {
 	if( fabs( hit->GetTime() - HEPVetoTimeCl[iBar][iCluster] ) < 5. ) {
 	  newhit=0;
-	  HEPVetoTimeCl[iBar][iCluster] = 
+	  HEPVetoTimeCl[iBar][iCluster] =
 	    (hit->GetTime()*hit->GetHitE() + HEPVetoECl[iBar][iCluster]*HEPVetoTimeCl[iBar][iCluster])/
 	    ( hit->GetHitE() + HEPVetoECl[iBar][iCluster]  ) ;
 	  HEPVetoECl[iBar][iCluster] +=  hit->GetHitE();
@@ -682,7 +688,7 @@ void EventAction::AddHEPVetoHits(HEPVetoHitsCollection* hcont)
       ETotHEPVeto[hit->GetHEPVetoNb()] += hit->GetHitE();  //sum single fingers energies and get total finger
     }
   }//end of first loop on hits
-  
+
   for (G4int h=0; h<nHits; h++) {
     HEPVetoHit* hit = (*hcont)[h]; //prende l'elemento h del vettore hit
     if ( hit != 0 ) {
@@ -695,7 +701,7 @@ void EventAction::AddHEPVetoHits(HEPVetoHitsCollection* hcont)
 	NHEPVetoTracks++;
 	//G4cout<<"trkID "<<hit->GetTrackID()<<" edep "<<hit->GetEdep()<<" Strip Numb "<<hit->GetEVetoNb()<<G4endl;
       }
-      if(NHEPVetoTracks>MaxTracks) break; 
+      if(NHEPVetoTracks>MaxTracks) break;
     }
   }//end of loop
 }
@@ -722,8 +728,8 @@ void EventAction::AddPVetoHits(PVetoHitsCollection* hcont){
   }
 
   G4int nHits = hcont->entries();
-  for (G4int h=0; h<nHits; h++) {									
-    PVetoHit* hit = (*hcont)[h]; //prende l'elemento h del vettore hit					
+  for (G4int h=0; h<nHits; h++) {
+    PVetoHit* hit = (*hcont)[h]; //prende l'elemento h del vettore hit
     if ( hit != 0 ) {
       // ETotPVeto[hit->GetPVetoNb()] += hit->GetHitE();  //sum single fingers energies and get total finger
       int iBar = hit->GetChannelId();
@@ -737,7 +743,7 @@ void EventAction::AddPVetoHits(PVetoHitsCollection* hcont){
       for(int iCluster = 0; iCluster < PVetoClIndex[iBar] ; iCluster++) {
 	if( fabs( hit->GetTime() - PVetoTimeCl[iBar][iCluster] ) < 0.1) {
 	  newhit=0;
-	  PVetoTimeCl[iBar][iCluster] = 
+	  PVetoTimeCl[iBar][iCluster] =
 	    (hit->GetTime()*hit->GetHitE() + PVetoECl[iBar][iCluster]*PVetoTimeCl[iBar][iCluster])/
 	    ( hit->GetHitE() + PVetoECl[iBar][iCluster]  ) ;
 	  PVetoECl[iBar][iCluster] +=  hit->GetHitE();
@@ -750,8 +756,8 @@ void EventAction::AddPVetoHits(PVetoHitsCollection* hcont){
 	PVetoTimeCl[iBar][PVetoClIndex[iBar]]  = hit->GetTime();
 	PVetoClIndex[iBar]++;
       }
-      
-      TimePVeto[hit->GetPVetoNb()] = 
+
+      TimePVeto[hit->GetPVetoNb()] =
 	(TimePVeto[hit->GetPVetoNb()]*ETotPVeto[hit->GetPVetoNb()] + hit->GetTime()*hit->GetHitE())/
 	(ETotPVeto[hit->GetPVetoNb()]+hit->GetHitE());
 
@@ -773,14 +779,14 @@ void EventAction::AddPVetoHits(PVetoHitsCollection* hcont){
 	NPVetoTracks++;
 	//G4cout<<"trkID "<<hit->GetTrackID()<<" edep "<<hit->GetEdep()<<" Strip Numb "<<hit->GetEVetoNb()<<G4endl;
       }
-      if(NPVetoTracks>MaxTracks) break; 
+      if(NPVetoTracks>MaxTracks) break;
     }
   }
 }
 
 void EventAction::AddEVetoHits(EVetoHitsCollection* hcont){
   for(G4int jj=0;jj<MaxTracks;jj++){
-    ETotEVeto[jj]=0.0;						  
+    ETotEVeto[jj]=0.0;
     EVetoTrackCh[jj]=0;
     EVetoTrackTime[jj]=0;
     EVetoX[jj]=0;
@@ -796,8 +802,8 @@ void EventAction::AddEVetoHits(EVetoHitsCollection* hcont){
 
 
   G4int nHits = hcont->entries();
-  for (G4int h=0; h<nHits; h++) {									
-    EVetoHit* hit = (*hcont)[h]; //prende l'elemento h del vettore hit					
+  for (G4int h=0; h<nHits; h++) {
+    EVetoHit* hit = (*hcont)[h]; //prende l'elemento h del vettore hit
     if ( hit != 0 ) {
 
       int iBar = hit->GetChannelId();
@@ -811,7 +817,7 @@ void EventAction::AddEVetoHits(EVetoHitsCollection* hcont){
       for(int iCluster = 0; iCluster < EVetoClIndex[iBar] ; iCluster++) {
 	if( fabs( hit->GetTime() - EVetoTimeCl[iBar][iCluster] ) < 5.) {
 	  newhit=0;
-	  EVetoTimeCl[iBar][iCluster] = 
+	  EVetoTimeCl[iBar][iCluster] =
 	    (hit->GetTime()*hit->GetHitE() + EVetoECl[iBar][iCluster]*EVetoTimeCl[iBar][iCluster])/
 	    ( hit->GetHitE() + EVetoECl[iBar][iCluster]  ) ;
 	  EVetoECl[iBar][iCluster] +=  hit->GetHitE();
@@ -841,7 +847,7 @@ void EventAction::AddEVetoHits(EVetoHitsCollection* hcont){
 	//	G4cout<<"cazzo "<<NEVetoTracks<<G4endl;
 	//G4cout<<"trkID "<<hit->GetTrackID()<<" edep "<<hit->GetEdep()<<" Strip Numb "<<hit->GetEVetoNb()<<G4endl;
       }
-      if(NEVetoTracks>MaxTracks) break; 
+      if(NEVetoTracks>MaxTracks) break;
     }
   }
 }
@@ -855,8 +861,8 @@ void EventAction::AddSACHits(SACHitsCollection* hcont)
   if (nHits == 0) return;
 
   for(G4int jj=0;jj<MaxTracks;jj++){
-    ETotSAC[jj]=0.0;										     
-    SACTrackTime[jj]=0.0;										     
+    ETotSAC[jj]=0.0;
+    SACTrackTime[jj]=0.0;
     SACEtrack[jj]=0.0;
     SACPType[jj]=0.0;
   }
@@ -911,8 +917,8 @@ void EventAction::AddCalHitsStep(G4double E,G4double T, G4int Ptype, G4double X,
   }
 }
 
-void EventAction::AddTPixHits(TPixHitsCollection* hcont){ //M. Raggi 26/03/2019 
-  G4int nHits = hcont->entries();			
+void EventAction::AddTPixHits(TPixHitsCollection* hcont){ //M. Raggi 26/03/2019
+  G4int nHits = hcont->entries();
   for (G4int h=0; h<nHits; h++) {
     TPixHit* hit = (*hcont)[h]; //prende l'elemento h del vettore hit
     if ( hit != 0 ) {
@@ -921,32 +927,32 @@ void EventAction::AddTPixHits(TPixHitsCollection* hcont){ //M. Raggi 26/03/2019
       G4double hTrE  = hit->GetTrackEnergy();   //deposited energy useless
       G4double hX    = hit->GetLocalPosX();
       G4double hY    = hit->GetLocalPosY();
-      G4double hChID = hit->GetChannelId();
+      // G4double hChID = hit->GetChannelId();
 
       fHistoManager->FillHisto(50,hE);     //50 has Tpix Histos
       fHistoManager->FillHisto(51,hTime);  //50 has Tpix Histos
       fHistoManager->FillHisto(52,hX);  //50 has Tpix Histos
       fHistoManager->FillHisto(53,hY);  //50 has Tpix Histos
 
-      fHistoManager->FillHisto2(55,hX,hY,1.); //X vs Y local coordinates 
+      fHistoManager->FillHisto2(55,hX,hY,1.); //X vs Y local coordinates
       fHistoManager->FillHisto2(56,hX,hTrE,1.); //X vs Track energy
       //      G4cout<<"CC Nhits "<<nHits<<" time  "<<hTime<<" edep "<<hE<<" X "<<hX<<" Y "<<hY<<G4endl;
     }
   }
- 
- 
+
+
 }
 
 void EventAction::AddLAVHits(LAVHitsCollection* hcont)
 {
   G4int LastID=-1;
-  G4int nHits = hcont->entries();			
+  G4int nHits = hcont->entries();
   for(G4int jj=0;jj<MaxTracks;jj++){
-    ETotLAV[jj]=0.0;										     
-    LAVTrackTime[jj]=0.0;										     
+    ETotLAV[jj]=0.0;
+    LAVTrackTime[jj]=0.0;
     LAVEtrack[jj]=0.0;
     LAVPType[jj]=0.0;
-  }							
+  }
   for (G4int h=0; h<nHits; h++) {
     LAVHit* hit = (*hcont)[h]; //prende l'elemento h del vettore hit
     if ( hit != 0 ) {

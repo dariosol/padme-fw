@@ -40,7 +40,7 @@ void SACDetector::CreateGeometry()
 
   // Create main SAC box
   printf("SAC will be placed at %f %f %f\n",geo->GetSACPosX(),geo->GetSACPosY(),geo->GetSACPosZ());
-  G4ThreeVector sacPos = G4ThreeVector(geo->GetSACPosX(),geo->GetSACPosY(),geo->GetSACPosZ()); 
+  G4ThreeVector sacPos = G4ThreeVector(geo->GetSACPosX(),geo->GetSACPosY(),geo->GetSACPosZ());
   G4double sacSizeX = geo->GetSACSizeX();
   G4double sacSizeY = geo->GetSACSizeY();
   G4double sacSizeZ = geo->GetSACSizeZ();
@@ -76,7 +76,7 @@ void SACDetector::CreateGeometry()
   sdMan->AddNewDetector(sacSD);
 
   //20-05-2020 ADD to track cerenkov photons
-  // sacSD->GetOptTrack()->UseOpticalTracking(); 
+  // sacSD->GetOptTrack()->UseOpticalTracking();
 
   fCrystalVolume->SetSensitiveDetector(sacSD);
 
@@ -98,7 +98,7 @@ void SACDetector::CreateGeometry()
   G4int nLayers = geo->GetSACNLayers();
 
   G4double Zoffset = 0.;
-  
+
   //I should repeat the structure for different layers
   for (G4int layer=0; layer<nLayers;layer++){
     for (G4int row=0;row<nRow;row++){
@@ -106,10 +106,10 @@ void SACDetector::CreateGeometry()
 	if (geo->ExistsCrystalAt(row,col)) {
 	  G4ThreeVector positionCry = G4ThreeVector(geo->GetCrystalPosX(row,col),geo->GetCrystalPosY(row,col),geo->GetCrystalPosZ(row,col)+Zoffset);
 	  //  printf("cristal position %f %f %f\n",geo->GetCrystalPosX(row,col),geo->GetCrystalPosY(row,col),geo->GetCrystalPosZ(row,col)+Zoffset);
-	  G4int idxCell = row*SACGEOMETRY_N_COLS_MAX+col+layer*nRow*nCol;
+	  // G4int idxCell = row*SACGEOMETRY_N_COLS_MAX+col+layer*nRow*nCol;
 	  //	  printf("*******idxCell %d\n",idxCell);
-	 G4PVPlacement* daughter= new G4PVPlacement(0,positionCry,fCellVolume,"SACCell",fSACVolume,false,idxCell,false);
-	 G4LogicalVolume* daughter_log = daughter->GetLogicalVolume();
+	 // G4PVPlacement* daughter= new G4PVPlacement(0,positionCry,fCellVolume,"SACCell",fSACVolume,false,idxCell,false);
+	 // G4LogicalVolume* daughter_log = daughter->GetLogicalVolume();
 	// if(daughter->CheckOverlaps(1000,false)){
 	//   printf("WARNING - overlaps found in %s\n",daughter_log->GetName().data());
 	//   return;

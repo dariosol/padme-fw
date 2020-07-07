@@ -27,7 +27,7 @@ public:
 
   static HEPVetoRootIO* GetInstance();
 
-  void NewRun(G4int,TFile*,TDetectorInfo*);
+  void NewRun(G4int, TDetectorInfo*);
   void EndRun();
   void SaveEvent(const G4Event*);
   void Close();

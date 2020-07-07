@@ -55,7 +55,7 @@ ECalRootIO::~ECalRootIO()
 void ECalRootIO::Close()
 {;}
 
-void ECalRootIO::NewRun(G4int nRun, TFile* hfile, TDetectorInfo* detInfo)
+void ECalRootIO::NewRun(G4int nRun, TDetectorInfo* detInfo)
 {
 
   fRunNumber = nRun;
@@ -122,7 +122,7 @@ void ECalRootIO::SaveEvent(const G4Event* eventG4)
 	    G4double e_tot = 0.;
 	    for(G4int i=0;i<n_hit;i++) {
 	      TECalMCHit* hit = (TECalMCHit*)fEvent->AddHit();
-	      hit->SetChannelId((*eCalHC)[i]->GetChannelId()); 
+	      hit->SetChannelId((*eCalHC)[i]->GetChannelId());
 	      hit->SetTime((*eCalHC)[i]->GetTime());
 	      hit->SetPosition(TVector3((*eCalHC)[i]->GetPosX(),
 					(*eCalHC)[i]->GetPosY(),
@@ -159,7 +159,7 @@ void ECalRootIO::SaveEvent(const G4Event* eventG4)
 	    G4double e_tot = 0.;
 	    for(G4int i=0;i<n_digi;i++) {
 	      TECalMCDigi* digi = (TECalMCDigi*)fEvent->AddDigi();
-	      digi->SetChannelId((*eCalDC)[i]->GetChannelId()); 
+	      digi->SetChannelId((*eCalDC)[i]->GetChannelId());
 	      digi->SetEnergy((*eCalDC)[i]->GetEnergy());
 	      digi->SetTime((*eCalDC)[i]->GetTime());
 	      digi->SetSignal((*eCalDC)[i]->GetSignal());

@@ -53,7 +53,7 @@ TPixRootIO::~TPixRootIO()
 void TPixRootIO::Close()
 {;}
 
-void TPixRootIO::NewRun(G4int nRun, TFile* hfile, TDetectorInfo* detInfo)
+void TPixRootIO::NewRun(G4int nRun, TDetectorInfo* detInfo)
 {
 
   fRunNumber = nRun;
@@ -120,7 +120,7 @@ void TPixRootIO::SaveEvent(const G4Event* eventG4)
 	    G4double e_tot = 0.;
 	    for(G4int i=0;i<n_hit;i++) {
 	      TTPixMCHit* hit = (TTPixMCHit*)fEvent->AddHit();
-	      hit->SetChannelId((*tPixHC)[i]->GetChannelId()); 
+	      hit->SetChannelId((*tPixHC)[i]->GetChannelId());
 	      hit->SetTime((*tPixHC)[i]->GetTime());
 	      hit->SetPosition(TVector3((*tPixHC)[i]->GetPosX(),
 					(*tPixHC)[i]->GetPosY(),
@@ -157,7 +157,7 @@ void TPixRootIO::SaveEvent(const G4Event* eventG4)
 	    G4double e_tot = 0.;
 	    for(G4int i=0;i<n_digi;i++) {
 	      TTPixMCDigi* digi = (TTPixMCDigi*)fEvent->AddDigi();
-	      digi->SetChannelId((*tPixDC)[i]->GetChannelId()); 
+	      digi->SetChannelId((*tPixDC)[i]->GetChannelId());
 	      digi->SetEnergy((*tPixDC)[i]->GetEnergy());
 	      digi->SetTime((*tPixDC)[i]->GetTime());
 	      e_tot += (*tPixDC)[i]->GetEnergy();

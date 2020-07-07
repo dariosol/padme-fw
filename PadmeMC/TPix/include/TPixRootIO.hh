@@ -27,7 +27,7 @@ public:
 
   static TPixRootIO* GetInstance();
 
-  void NewRun(G4int,TFile*,TDetectorInfo*);
+  void NewRun(G4int, TDetectorInfo*);
   //void NewRun(G4int,TFile*);
   void EndRun();
   void SaveEvent(const G4Event*);

@@ -1,0 +1,295 @@
+# macro file for the visualization of the PADME experiment
+# ModifySAC
+
+# sets some default verbose
+/control/verbose 1
+/run/verbose 1
+/tracking/verbose 0
+
+# simulation from NA62
+/Simulation/Physics QGSP_FTFP_BERT
+
+
+
+# general run settings
+
+# how often event printout is shown
+/settings/PrintOutFrequency 1
+
+# automatically generate random seeds using system time
+# if disabled, user must set environment variables PADME_SEED1 and PADME_SEED2
+/settings/AutomaticRandomSeed true
+
+# turbo mode kills low energy particles to speed up rough detector studies
+# ENABLE ONLY IF YOU KNOW WHAT YOU ARE DOING!
+# /settings/TurboModeEnable false
+
+# set verbose level for TurboMode
+# if >=10 show all killed particles
+# /settings/TurboMode/Verbose 0
+
+# turbo mode thresholds for e+, e-, gamma, neutron
+# particles will be killed if their kinetic energy is below threshold
+# /settings/TurboMode/KillEnergyPositron 10.0 MeV
+# /settings/TurboMode/KillEnergyElectron 10.0 MeV
+# /settings/TurboMode/KillEnergyGamma 1.0 MeV
+# /settings/TurboMode/KillEnergyNeutron 10.0 MeV
+
+
+
+# RootIO settings
+
+# output root file with MC hits
+/output/DataFileName MCData.root
+
+# output root file with analysis histograms/ntuple
+/output/HistoFileName UBTF.root
+
+# disable/enable SAC/ECal analysis (WARNING! for SAC see command documentation)
+# /analysis/DisableSACAnalysis true
+/analysis/DisableECalAnalysis true
+
+# disable/enable saving to fast analysis tree U102
+# uses conditions on ECal Energy, SAC energy, Hit in the Veto
+/analysis/SaveEcal false
+/analysis/SaveVeto false
+/analysis/SaveSAC true
+
+# enable IO for single detectors
+# /output/EnableDetectorIO Target:D
+# /output/EnableDetectorIO PVeto:HD
+# /output/EnableDetectorIO EVeto:HD
+# /output/EnableDetectorIO HEPVeto:HD
+# /output/EnableDetectorIO ECal:D
+/output/EnableDetectorIO SAC:D
+# /output/EnableDetectorIO TPix:D
+
+# disable IO for single detectors
+/output/DisableDetectorIO Target
+/output/DisableDetectorIO PVeto
+/output/DisableDetectorIO EVeto
+/output/DisableDetectorIO HEPVeto
+/output/DisableDetectorIO ECal
+# /output/DisableDetectorIO SAC
+/output/DisableDetectorIO TPix
+
+
+
+# detector settings
+
+#/Detector/VerboseLevel 0
+
+# /Detector/EnableSubDetector ECal
+/Detector/EnableSubDetector Target
+/Detector/EnableSubDetector SAC
+# /Detector/EnableSubDetector PVeto
+# /Detector/EnableSubDetector EVeto
+# /Detector/EnableSubDetector HEPVeto
+# /Detector/EnableSubDetector TDump
+# /Detector/EnableSubDetector TPix
+
+# /Detector/EnableStructure Magnet
+# /Detector/EnableStructure Chamber
+# /Detector/EnableStructure BeamLine
+
+/Detector/DisableSubDetector ECal
+# /Detector/DisableSubDetector Target
+# /Detector/DisableSubDetector SAC
+/Detector/DisableSubDetector PVeto
+/Detector/DisableSubDetector EVeto
+/Detector/DisableSubDetector HEPVeto
+/Detector/DisableSubDetector TDump
+/Detector/DisableSubDetector TPix
+
+/Detector/DisableStructure Magnet
+/Detector/DisableStructure Chamber
+# /Detector/DisableStructure BeamLine
+
+# /Detector/WorldIsAir
+# /Detector/WorldIsVacuum
+
+# /Detector/SetMagnetVisible
+# /Detector/SetMagnetInvisible
+
+# /Detector/SetChamberVisible
+# /Detector/SetChamberInvisible
+
+# /Detector/SetBeamLineVisible
+# /Detector/SetBeamLineInvisible
+
+# /Detector/EnableMagneticField
+/Detector/DisableMagneticField
+# /Detector/SetMagneticFieldValue 0.4542 tesla
+
+# /Detector/CrossMagneticVolume internal
+# /Detector/CrossMagneticVolume external
+
+# /Detector/SetMagneticVolumeVisible
+/Detector/SetMagneticVolumeInvisible
+
+/Detector/SAC/VerboseLevel 0
+/Detector/SAC/NRows 10
+/Detector/SAC/NCols 10
+/Detector/SAC/NLayers 4
+/Detector/SAC/CrystalSize 2.0 cm
+/Detector/SAC/CrystalLength 3.75 cm
+# /Detector/SAC/CrystalGap 50.0 um
+# /Detector/SAC/CrystalCoating 100.0 um
+# /Detector/SAC/FrontFaceZ 300.0 cm
+
+
+
+# beam setup
+
+# primary positrons setup (default PADMEMC configuration)
+# particle 0: gamma
+# particle 1: neutron
+/beam/particle 0
+
+/beam/n_e+_per_bunch 1
+# /beam/n_e+_poisson_on true
+# /beam/bunch_structure_on true
+# /beam/bunch_time_length 250.0 ns
+# /beam/ubunch_time_length 150.0 ps
+# /beam/ubunch_time_delay 350.0 ps
+/beam/position_x 0.0 cm
+/beam/position_y 0.0 cm
+/beam/position_z -90.0 cm
+/beam/position_spread_on true
+/beam/position_x_spread 60.0 mm
+/beam/position_y_spread 60.0 mm
+/beam/momentum 25000 MeV
+/beam/momentum_spread_on true
+/beam/momentum_spread 5.45 MeV
+/beam/direction 0.0 0.0 1.0
+/beam/emittance_on true
+/beam/emittance_x 5.0 mrad
+/beam/emittance_y 5.0 mrad
+# /beam/uboson_mass 22.0 MeV
+# /beam/calibration false
+# /beam/calib_energy 50.0 MeV
+# /beam/calib_x 14.0 cm
+# /beam/calib_y 14.0 cm
+# /beam/calib_radius 1.0 cm
+
+
+
+# calibration run setup: single 50MeV photon pointing to a spot on ECal front face
+# /beam/calibration true
+# /beam/calib_energy 50.0 MeV
+# /beam/calib_x 14.0 cm
+# /beam/calib_y 14.0 cm
+# /beam/calib_radius 1.0 cm
+
+
+
+# create detectors and initialize run
+/run/initialize
+
+# use this open statement to create an OpenGL view:
+/vis/open OGL 600x600-0+0
+
+# use this open statement to create a .prim file suitable for viewing in DAWN:
+# /vis/open DAWNFILE
+
+# use this open statement to create a .heprep file suitable for viewing in HepRApp:
+# /vis/open HepRepFile
+# /vis/open HepRepXML
+# /vis/heprep/setEventNumberSuffix -0001
+# /vis/scene/add/trajectories rich
+
+# use this open statement to create a .wrl file suitable for viewing in a VRML viewer:
+# /vis/open VRML2FILE
+
+# disable auto refresh and quieten vis messages whilst scene and trajectories are established:
+/vis/viewer/set/autoRefresh false
+/vis/verbose errors
+
+# draw geometry:
+/vis/drawVolume
+# /geometry/test/grid_test true
+
+# /vis/viewer/set/viewpointVector 0.0 10.0 0.0
+
+# choose viewpoint
+# side view
+# /vis/viewer/set/viewpointThetaPhi -90.0 0.0 deg
+# top view
+# /vis/viewer/set/viewpointThetaPhi 90.0 90.0 deg
+# front view
+/vis/viewer/set/viewpointThetaPhi 0.0 0.0 deg
+# back view
+# /vis/viewer/set/viewpointThetaPhi 180.0 0.0 deg
+
+# specify zoom value:
+/vis/viewer/zoom 1.8
+
+# specify style (surface or wireframe):
+/vis/viewer/set/style wireframe
+# /vis/viewer/set/style surface
+
+# draw coordinate axes:
+/vis/scene/add/axes 0 0 0 1 m
+
+# decorations
+# /vis/set/textColour green
+# /vis/set/textLayout right
+# /vis/scene/add/text2D 0.9 -0.9 24 ! ! KLEVER SAC
+# /vis/set/textLayout # revert to normal (left adjusted) layout
+# /vis/set/textColour # revert to default text colour (blue)
+# /vis/scene/add/eventID # drawn at end of event
+# /vis/scene/add/date # date stamp
+
+# draw smooth trajectories at end of event, showing trajectory points as markers 2 pixels wide:
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByCharge
+/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
+/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 1
+# (if too many tracks cause core dump => /tracking/storeTrajectory 0)
+/tracking/storeTrajectory 0
+
+# draw hits at end of event:
+# /vis/scene/add/hits
+
+# to draw only gammas:
+# /vis/filtering/trajectories/create/particleFilter
+# /vis/filtering/trajectories/particleFilter-0/add gamma
+
+# to invert the above, drawing all particles except gammas, keep the above two lines but also add:
+# /vis/filtering/trajectories/particleFilter-0/invert true
+
+# many other options are available with /vis/modeling and /vis/filtering
+# for example, to select colour by particle ID:
+# /vis/modeling/trajectories/create/drawByParticleID
+# /vis/modeling/trajectories/drawByParticleID-0/set e- blue
+
+# to superimpose all of the events from a given run:
+# /vis/scene/endOfEventAction accumulate
+
+# re-establish auto refreshing and verbosity:
+/vis/viewer/set/autoRefresh true
+/vis/verbose warnings
+
+# fix problem in visualizing some circular parts
+# /vis/viewer/set/lineSegmentsPerCircle 50
+
+/vis/scene/endOfEventAction accumulate 10
+
+# /vis/viewer/flush
+
+# calo picture
+/vis/viewer/set/viewpointThetaPhi 45.0 45.0
+/vis/viewer/panTo -1 -0.9
+/vis/viewer/zoom 4.5
+
+# monitor picture
+# /vis/viewer/panTo -0.5 0.0
+# /vis/viewer/set/viewpointThetaPhi 0.0 0.0
+# /vis/viewer/zoom 50
+
+# only show tracks with p > 1MeV
+/vis/filtering/trajectories/create/attributeFilter
+/vis/filtering/trajectories/attributeFilter-0/setAttribute IMag
+/vis/filtering/trajectories/attributeFilter-0/addInterval 1.0 MeV 100000.0 MeV
+
+# /run/beamOn 1

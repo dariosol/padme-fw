@@ -24,7 +24,7 @@ public:
   MagnetMessenger(MagnetStructure* );
   ~MagnetMessenger();
 
-  void SetNewValue(G4UIcommand*, G4String);
+  // void SetNewValue();
 
 private:
 

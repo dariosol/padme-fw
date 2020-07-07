@@ -2,7 +2,7 @@
 #define HistoManager_h 1
 
 #include "globals.hh"
-       	       	       
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 #define NPVetoBars   100
 #define NEVetoBars   100
@@ -26,7 +26,7 @@ struct NTEvent{
 
   double NTIDProc;
   int NTNCluster;
-  int NTNTracks;	
+  int NTNTracks;
   int NTNHEPVetoTracks;
   int NTNPVetoTracks;
   int NTNEVetoTracks;
@@ -134,7 +134,7 @@ struct NTEvent{
 
 
 
-}; 
+};
 
  class TFile;
  class TTree;
@@ -161,23 +161,23 @@ public:
 
     void FillHisto(G4int id, G4double bin, G4double weight = 1.0);
     void FillHisto2(G4int id, G4double bin, G4double ybin, G4double weight = 1.0);
-    void Normalize(G4int id, G4double fac);    
+    void Normalize(G4int id, G4double fac);
 
-    void FillNtuple(NTEvent* Evt);
-    
+    void FillNtuple();
+
     void PrintStatistic();
 
   void FillGenEvent(){};
   void FillSimEvent(){};
 
   public:
-    NTEvent  myEvt;    
+    NTEvent  myEvt;
   private:
-    
+
     TFile*   rootFile;
-    TH1D*    histo[MaxHisto];            
-    TH2D*    histo2[MaxHisto];            
-    TTree*   ntupl;    
+    TH1D*    histo[MaxHisto];
+    TH2D*    histo2[MaxHisto];
+    TTree*   ntupl;
 
   TTree* ntSim;
   TTree* ntGen;
@@ -186,4 +186,3 @@ public:
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-

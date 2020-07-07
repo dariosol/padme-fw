@@ -54,7 +54,7 @@ void ECalDetector::CreateGeometry()
 
   // Create main ECal box
   printf("ECal will be placed at %f %f %f\n",geo->GetECalPosX(),geo->GetECalPosY(),geo->GetECalPosZ());
-  G4ThreeVector ecalPos = G4ThreeVector(geo->GetECalPosX(),geo->GetECalPosY(),geo->GetECalPosZ()); 
+  G4ThreeVector ecalPos = G4ThreeVector(geo->GetECalPosX(),geo->GetECalPosY(),geo->GetECalPosZ());
   G4double ecalSizeX = geo->GetECalSizeX();
   G4double ecalSizeY = geo->GetECalSizeY();
   G4double ecalSizeZ = geo->GetECalSizeZ();
@@ -327,9 +327,9 @@ void ECalDetector::CreateGeometry()
     G4int xCell = 0;
     for(G4int x=0; x<ecalSuppLattNCellXY; x++) {
       for(G4int z=0; z<ecalSuppLattNCellZ; z++) {
-	G4double posX = geo->GetECalSupportLatticeXCellPosX(x,z);
-	G4double posY = geo->GetECalSupportLatticeXCellPosY(x,z);
-	G4double posZ = geo->GetECalSupportLatticeXCellPosZ(x,z);
+	G4double posX = geo->GetECalSupportLatticeXCellPosX(x);
+	G4double posY = geo->GetECalSupportLatticeXCellPosY();
+	G4double posZ = geo->GetECalSupportLatticeXCellPosZ(z);
 	new G4PVPlacement(0,G4ThreeVector(posX,posY,posZ),ecalSuppLattXCellVolume,"ECalSuppLattXCell",ecalSuppLattXVolume,false,xCell,false);
 	xCell++;
       }
@@ -361,9 +361,9 @@ void ECalDetector::CreateGeometry()
     G4int yCell = 0;
     for(G4int y=0; y<ecalSuppLattNCellXY; y++) {
       for(G4int z=0; z<ecalSuppLattNCellZ; z++) {
-	G4double posX = geo->GetECalSupportLatticeYCellPosX(y,z);
-	G4double posY = geo->GetECalSupportLatticeYCellPosY(y,z);
-	G4double posZ = geo->GetECalSupportLatticeYCellPosZ(y,z);
+	G4double posX = geo->GetECalSupportLatticeYCellPosX();
+	G4double posY = geo->GetECalSupportLatticeYCellPosY(y);
+	G4double posZ = geo->GetECalSupportLatticeYCellPosZ(z);
 	new G4PVPlacement(0,G4ThreeVector(posX,posY,posZ),ecalSuppLattYCellVolume,"ECalSuppLattYCell",ecalSuppLattYVolume,false,yCell,false);
 	yCell++;
       }

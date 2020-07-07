@@ -1,4 +1,4 @@
-#include "Constants.hh" 
+#include "Constants.hh"
 
 #include "DetectorConstruction.hh"
 #include "DetectorMessenger.hh"
@@ -70,7 +70,7 @@
 #include "G4ios.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
- 
+
 DetectorConstruction::DetectorConstruction()
 :fWorldLength(0.)
 {
@@ -88,7 +88,7 @@ DetectorConstruction::DetectorConstruction()
   fHEPVetoDetector   = new HEPVetoDetector(0);
   fTDumpDetector     = new TDumpDetector(0);
   fTPixDetector      = new TPixDetector(0);
-  fTungstenDetector  = new TungstenDetector(0); 
+  fTungstenDetector  = new TungstenDetector(0);
   fMagnetStructure   = new MagnetStructure(0);
   fChamberStructure  = new ChamberStructure(0);
   fBeamLineStructure = new BeamLineStructure(0); //M. Raggi 07/03/2019
@@ -129,12 +129,12 @@ DetectorConstruction::DetectorConstruction()
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
- 
+
 DetectorConstruction::~DetectorConstruction()
 {
 
   //delete stepLimit;
-  delete fDetectorMessenger;             
+  delete fDetectorMessenger;
 
   delete fECalDetector;
   delete fTargetDetector;
@@ -176,14 +176,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     fParser.Read("gdml/Chamber.gdml");
     physicWorld = fParser.GetWorldVolume(); // Recover physical world volume
     logicWorld = physicWorld->GetLogicalVolume(); // Recover logical world volume
-    
+
     // Set world characteristics
     logicWorld->SetVisAttributes(G4VisAttributes::Invisible);
     //logicWorld->SetVisAttributes(G4VisAttributes(G4Colour::White()));
     logicWorld->SetMaterial(G4Material::GetMaterial("Vacuum"));
     if (fVerbose)
       printf("World %s %s\n",logicWorld->GetName().data(),logicWorld->GetMaterial()->GetName().data());
-    
+
     // Set color and material of the Vacuum Chamber shells
     G4int nD = logicWorld->GetNoDaughters();
     for(G4int iD = 0; iD<nD;iD++) {
@@ -211,7 +211,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     logicWorld->SetVisAttributes(G4VisAttributes::Invisible);
     //logicWorld->SetVisAttributes(G4VisAttributes(G4Colour::White()));
     physicWorld = new G4PVPlacement(0,G4ThreeVector(),logicWorld,"World",0,false,0);
-    printf("World %s %s, size: %d\n",logicWorld->GetName().data(),logicWorld->GetMaterial()->GetName().data(),fWorldLength);
+    printf("World %s %s, size: %f\n", logicWorld->GetName().data(), logicWorld->GetMaterial()->GetName().data(), fWorldLength);
 
   }
 
@@ -356,7 +356,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
     G4SubtractionSolid* cmvSolid4 = new G4SubtractionSolid("CMV4",cmvSolid1,cmvSolid2,0,G4ThreeVector(0.,0.,cmvHLZ-pipL-0.5*flgL));
     G4SubtractionSolid* cmvSolid5 = new G4SubtractionSolid("CMV5",cmvSolid4,cmvSolid3,0,G4ThreeVector(0.,0.,cmvHLZ-0.5*pipL));
-    
+
     G4double cmvPosX = 0.5*(cmvMaxX+cmvMinX);
     G4double cmvPosY = 0.5*(cmvMaxY+cmvMinY);
     G4double cmvPosZ = 0.5*(cmvMaxZ+cmvMinZ);
@@ -504,7 +504,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 void DetectorConstruction::SetupDetectors()
 {}
- 
+
 void DetectorConstruction::DefineMaterials()
 {
 
@@ -602,7 +602,7 @@ void DetectorConstruction::DefineMaterials()
   //--------- Materials definition ---------
   G4double a, z, density;
   G4int ncomponents, natoms;
-  G4double fractionmass;  
+  G4double fractionmass;
 
   // A few useful elements
   G4Element* O  = new G4Element("Oxygen",   "O",  z= 8., a=16.00*g/mole);
@@ -745,10 +745,10 @@ void DetectorConstruction::DefineMaterials()
 
 void DetectorConstruction::SetTargetMaterial(G4String materialName)
 {
-  // search the material by its name 
-  G4Material* pttoMaterial = G4Material::GetMaterial(materialName);  
+  // search the material by its name
+  G4Material* pttoMaterial = G4Material::GetMaterial(materialName);
   if (pttoMaterial) {
-    fTargetDetector->GetTargetLogicalVolume()->SetMaterial(pttoMaterial); 
+    fTargetDetector->GetTargetLogicalVolume()->SetMaterial(pttoMaterial);
     G4cout << "\n----> The Target material is now " << materialName << G4endl;
   } else {
     G4cout << "\n----> WARNING: attempt to use unknown material " << materialName << " for Target" << G4endl;
@@ -826,7 +826,7 @@ void DetectorConstruction::EnableStructure(G4String str)
   if (fVerbose) printf("Enabling structure %s\n",str.data());
   if      (str=="Wall")     { fEnableWall     = 1; }
   else if (str=="Chamber")  { fEnableChamber  = 1; }
-  else if (str=="BeamLine") { fEnableBeamLine = 1; } 
+  else if (str=="BeamLine") { fEnableBeamLine = 1; }
   else if (str=="Magnet")   { fEnableMagnet   = 1; }
   else { printf("WARNING: request to enable unknown structure %s\n",str.data()); }
 }

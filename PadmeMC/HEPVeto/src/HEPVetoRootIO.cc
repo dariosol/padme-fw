@@ -54,7 +54,7 @@ void HEPVetoRootIO::Close()
 {;}
 
 //void HEPVetoRootIO::NewRun(G4int nRun, TFile* hfile)
-void HEPVetoRootIO::NewRun(G4int nRun, TFile* hfile, TDetectorInfo* detInfo)
+void HEPVetoRootIO::NewRun(G4int nRun, TDetectorInfo* detInfo)
 {
 
   fRunNumber = nRun;
@@ -159,7 +159,7 @@ void HEPVetoRootIO::SaveEvent(const G4Event* eventG4)
 	    G4double e_tot = 0.;
 	    for(G4int i=0;i<n_digi;i++) {
 	      THEPVetoMCDigi* digi = (THEPVetoMCDigi*)fEvent->AddDigi();
-	      digi->SetChannelId((*hepVetoDC)[i]->GetChannelId()); 
+	      digi->SetChannelId((*hepVetoDC)[i]->GetChannelId());
 	      digi->SetEnergy((*hepVetoDC)[i]->GetEnergy());
 	      digi->SetTime((*hepVetoDC)[i]->GetTime());
 	      e_tot += (*hepVetoDC)[i]->GetEnergy();

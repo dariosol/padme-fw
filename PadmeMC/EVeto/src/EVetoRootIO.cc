@@ -54,7 +54,7 @@ void EVetoRootIO::Close()
 {;}
 
 //void EVetoRootIO::NewRun(G4int nRun, TFile* hfile)
-void EVetoRootIO::NewRun(G4int nRun, TFile* hfile, TDetectorInfo* detInfo)
+void EVetoRootIO::NewRun(G4int nRun, TDetectorInfo* detInfo)
 {
 
   fRunNumber = nRun;
@@ -122,7 +122,7 @@ void EVetoRootIO::SaveEvent(const G4Event* eventG4)
 	    G4double e_tot = 0.;
 	    for(G4int i=0;i<n_hit;i++) {
 	      TEVetoMCHit* hit = (TEVetoMCHit*)fEvent->AddHit();
-	      hit->SetChannelId((*eVetoHC)[i]->GetChannelId()); 
+	      hit->SetChannelId((*eVetoHC)[i]->GetChannelId());
 	      hit->SetTime((*eVetoHC)[i]->GetTime());
 	      hit->SetPosition(TVector3((*eVetoHC)[i]->GetPosX(),
 					(*eVetoHC)[i]->GetPosY(),
@@ -159,7 +159,7 @@ void EVetoRootIO::SaveEvent(const G4Event* eventG4)
 	    G4double e_tot = 0.;
 	    for(G4int i=0;i<n_digi;i++) {
 	      TEVetoMCDigi* digi = (TEVetoMCDigi*)fEvent->AddDigi();
-	      digi->SetChannelId((*eVetoDC)[i]->GetChannelId()); 
+	      digi->SetChannelId((*eVetoDC)[i]->GetChannelId());
 	      digi->SetEnergy((*eVetoDC)[i]->GetEnergy());
 	      digi->SetTime((*eVetoDC)[i]->GetTime());
 	      e_tot += (*eVetoDC)[i]->GetEnergy();

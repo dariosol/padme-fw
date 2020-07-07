@@ -45,7 +45,7 @@ double Nmuons_aft;
 
 void sighandler(int sig){
     G4cerr << G4endl << "********************************************************************************" << G4endl;
-    G4cerr << "Killed with Signal " << sig << G4endl << "Closing ROOT files ..." << G4endl; 
+    G4cerr << "Killed with Signal " << sig << G4endl << "Closing ROOT files ..." << G4endl;
     G4RunManager::GetRunManager()->AbortRun();
     RootIOManager::GetInstance()->EndRun();
     RootIOManager::GetInstance()->Close();
@@ -66,13 +66,13 @@ int main(int argc,char** argv)
 {
   //  int SeedNum = -1;
   //  if (argc == 3) SeedNum = atoi(argv[2]);
-  
+
   //choose the Random engine
   //  CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
-  //G4MTHepRandom::setTheEngine(new CLHEP::Ranlux64Engine);  
+  //G4MTHepRandom::setTheEngine(new CLHEP::Ranlux64Engine);
 #ifdef  G4MULTITHREADED
   G4MTHepRandom::setTheEngine(new CLHEP::RanecuEngine);
-#else 
+#else
   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
 #endif
 
@@ -82,11 +82,11 @@ int main(int argc,char** argv)
 
   // Run manager
   G4RunManager * runManager = new G4RunManager;
-  
+
 #ifdef G4VIS_USE
   G4VisManager* visManager = new G4VisExecutive;
   visManager->Initialize();
-#endif    
+#endif
 
   // Set inputs from datacard (macro file)
   DatacardManager::GetInstance()->SetMessenger();
@@ -98,9 +98,9 @@ int main(int argc,char** argv)
   DetectorConstruction* detector = new DetectorConstruction;
   runManager->SetUserInitialization(detector);
 
-  
+
   //ONLY BERTINI
-  //G4String plName = "FTFP_BERT";  
+  //G4String plName = "FTFP_BERT";
   //G4PhysListFactory physListFactory;
   //G4VModularPhysicsList* physicsList = physListFactory.GetReferencePhysList(plName);
   //runManager->SetUserInitialization(physicsList);
@@ -122,7 +122,7 @@ int main(int argc,char** argv)
   runManager->SetUserAction(gen_action);
   //
   RunAction* run_action = new RunAction();
-  runManager->SetUserAction(run_action); 
+  runManager->SetUserAction(run_action);
   //
   EventAction* myevent_action = new EventAction(run_action);
   G4UserEventAction* event_action  = myevent_action;
@@ -150,13 +150,13 @@ int main(int argc,char** argv)
   //  signal(SIGINT,sighandler);
   //  signal(SIGTERM,sighandler);
   //  signal(127,sighandler);
-  
+
   //  if (prev_fn==SIGTERM) run_action::EndOfRunAction();
-  
+
   // Get the pointer to the User Interface manager
-  G4UImanager * UImanager = G4UImanager::GetUIpointer();  
-  
-  if (argc!=1)   // batch mode  
+  G4UImanager * UImanager = G4UImanager::GetUIpointer();
+
+  if (argc!=1)   // batch mode
     {
       G4String command = "/control/execute ";
       G4String fileName = argv[1];
@@ -164,19 +164,19 @@ int main(int argc,char** argv)
       //      UImanager->ApplyCommand(command+fileName+fileNameOut);
     }
   else           // interactive mode : define UI session
-    { 
+    {
 #ifdef G4UI_USE
-      G4UIExecutive * ui = new G4UIExecutive(argc,argv);
+      G4UIExecutive * ui = new G4UIExecutive(argc, argv, "qt");
 #ifdef G4VIS_USE
-      UImanager->ApplyCommand("/control/execute vis.mac");     
+      UImanager->ApplyCommand("/control/execute vis.mac");
 #endif
       ui->SessionStart();
       delete ui;
 #endif
-     
+
 #ifdef G4VIS_USE
       delete visManager;
-#endif     
+#endif
     }
 
   // Close latest root file

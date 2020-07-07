@@ -55,7 +55,7 @@ TargetRootIO::~TargetRootIO()
 void TargetRootIO::Close()
 {;}
 
-void TargetRootIO::NewRun(G4int nRun, TFile* hfile, TDetectorInfo* detInfo)
+void TargetRootIO::NewRun(G4int nRun, TDetectorInfo* detInfo)
 {
 
   fRunNumber = nRun;
@@ -160,7 +160,7 @@ void TargetRootIO::SaveEvent(const G4Event* eventG4)
 	    G4double e_tot = 0.;
 	    for(G4int i=0;i<n_digi;i++) {
 	      TTargetMCDigi* digi = (TTargetMCDigi*)fEvent->AddDigi();
-	      digi->SetChannelId((*targetDC)[i]->GetChannelId()); 
+	      digi->SetChannelId((*targetDC)[i]->GetChannelId());
 	      digi->SetEnergy((*targetDC)[i]->GetEnergy());
 	      digi->SetTime((*targetDC)[i]->GetTime());
 	      digi->SetDNumber((*targetDC)[i]->GetDNumber());

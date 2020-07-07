@@ -53,7 +53,7 @@ PVetoRootIO::~PVetoRootIO()
 void PVetoRootIO::Close()
 {;}
 
-void PVetoRootIO::NewRun(G4int nRun, TFile* hfile, TDetectorInfo* detInfo)
+void PVetoRootIO::NewRun(G4int nRun, TDetectorInfo* detInfo)
 {
 
   fRunNumber = nRun;
@@ -121,7 +121,7 @@ void PVetoRootIO::SaveEvent(const G4Event* eventG4)
 	    G4double e_tot = 0.;
 	    for(G4int i=0;i<n_hit;i++) {
 	      TPVetoMCHit* hit = (TPVetoMCHit*)fEvent->AddHit();
-	      hit->SetChannelId((*pVetoHC)[i]->GetChannelId()); 
+	      hit->SetChannelId((*pVetoHC)[i]->GetChannelId());
 	      hit->SetTime((*pVetoHC)[i]->GetTime());
 	      hit->SetPosition(TVector3((*pVetoHC)[i]->GetPosX(),
 					(*pVetoHC)[i]->GetPosY(),
@@ -158,7 +158,7 @@ void PVetoRootIO::SaveEvent(const G4Event* eventG4)
 	    G4double e_tot = 0.;
 	    for(G4int i=0;i<n_digi;i++) {
 	      TPVetoMCDigi* digi = (TPVetoMCDigi*)fEvent->AddDigi();
-	      digi->SetChannelId((*pVetoDC)[i]->GetChannelId()); 
+	      digi->SetChannelId((*pVetoDC)[i]->GetChannelId());
 	      digi->SetEnergy((*pVetoDC)[i]->GetEnergy());
 	      digi->SetTime((*pVetoDC)[i]->GetTime());
 	      e_tot += (*pVetoDC)[i]->GetEnergy();

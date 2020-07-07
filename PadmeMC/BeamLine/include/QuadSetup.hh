@@ -22,11 +22,11 @@ class QuadSetup
 
 public:
 
-  QuadSetup(G4double          pGradient, 
-	    G4ThreeVector     pOrigin, 
+  QuadSetup(G4double          pGradient,
+	    G4ThreeVector     pOrigin,
 	    G4RotationMatrix* pMatrix);
   ~QuadSetup();
-      
+
   void SetStepperType(G4int i) { fStepperType = i; }
 
   void SetStepper();
@@ -38,7 +38,7 @@ public:
   G4FieldManager*   GetLocalFieldManager()  { return fLocalFieldManager; }
   QuadrupoleMagField* GetMagneticField() { return fMagneticField; }
 
-  void SetMagneticFieldValue(G4double);
+  // void SetMagneticFieldValue(G4double);
 
 protected:
 
@@ -49,19 +49,19 @@ private:
   G4FieldManager* fFieldManager;
   G4FieldManager* fLocalFieldManager;
 
-  QuadrupoleMagField* fMagneticField; 
+  QuadrupoleMagField* fMagneticField;
 
   G4ChordFinder* fChordFinder;
   G4ChordFinder* fLocalChordFinder;
 
   G4Mag_UsualEqRhs* fEquation;
-  G4Mag_UsualEqRhs* fLocalEquation; 
+  G4Mag_UsualEqRhs* fLocalEquation;
 
   G4MagIntegratorStepper* fStepper;
   G4MagIntegratorStepper* fLocalStepper;
   G4int fStepperType;
   G4double fMinStep;
- 
+
   //MagneticFieldMessenger* fFieldMessenger;
 
 };

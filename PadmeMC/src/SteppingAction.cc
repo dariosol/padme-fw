@@ -16,9 +16,9 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 SteppingAction::SteppingAction()
-{ 
+{
 
-  fEventAction = (EventAction*) G4RunManager::GetRunManager()->GetUserEventAction(); 
+  fEventAction = (EventAction*) G4RunManager::GetRunManager()->GetUserEventAction();
   fSACEnergyThr=5*MeV;
   bpar = BeamParameters::GetInstance();
 
@@ -43,7 +43,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 	G4cout << "Next volume " <<  step->GetPostStepPoint()->GetPhysicalVolume()->GetName() << " "<<track->GetKineticEnergy()<< G4endl;
 	G4cout << "E Thr " <<fSACEnergyThr<<G4endl;
 	// processing hit when entering the volume SAC Cry
-	if (track->GetKineticEnergy()>fSACEnergyThr) { 
+	if (track->GetKineticEnergy()>fSACEnergyThr) {
 	  fEventAction->AddSACHitsStep(track->GetKineticEnergy(),
 				       track->GetGlobalTime(),ClassifyTrack(step->GetTrack()),
 				       step->GetPostStepPoint()->GetPosition().x(),
@@ -52,22 +52,22 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 				       );
 	  printf("track: %d\n",ClassifyTrack(step->GetTrack()));
 	}
-      
+
 	G4cout << "Next volume " <<  step->GetPostStepPoint()->GetPhysicalVolume()->GetCopyNo() <<" Kinetic Energy: "<<track->GetKineticEnergy()<<" X "<<step->GetPostStepPoint()->GetPosition().x()<<" Y "<<step->GetPostStepPoint()->GetPosition().y()<<" T "<<step->GetPostStepPoint()->GetGlobalTime()<<G4endl;
-	track->SetTrackStatus(fStopAndKill);      
+	track->SetTrackStatus(fStopAndKill);
       }
     }
   }
-  
+
 
   //Analyze ECal tracks
   if (fEnableECalAnalysis) {
     if(step->GetPostStepPoint()->GetPhysicalVolume()!=0){
-      if(step->GetPostStepPoint()->GetPhysicalVolume()->GetName()=="ECal" && 
+      if(step->GetPostStepPoint()->GetPhysicalVolume()->GetName()=="ECal" &&
 	 step->GetPreStepPoint()->GetPhysicalVolume()->GetName()=="World") {
-      
+
 	////PRENDI LE VARIABILI DALLA GEOMETRIA PLZ!!!!!!!!!!!!!!!!!!!!!
-	if(abs(step->GetPostStepPoint()->GetPosition().x())>5.*cm ||    
+	if(abs(step->GetPostStepPoint()->GetPosition().x())>5.*cm ||
 	   abs(step->GetPostStepPoint()->GetPosition().y())>5.*cm){
 	  fEventAction->AddCalHitsStep(track->GetKineticEnergy(),
 				       track->GetGlobalTime(),
@@ -75,10 +75,10 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 				       step->GetPostStepPoint()->GetPosition().x(),
 				       step->GetPostStepPoint()->GetPosition().y()
 				       );
-	
+
 	  //	    G4cout << "Next volume " <<  step->GetPostStepPoint()->GetPhysicalVolume()->GetCopyNo() <<" "<<track->GetKineticEnergy()<<
 	  //	      " X "<<step->GetPostStepPoint()->GetPosition().x()<<" Y "<<step->GetPostStepPoint()->GetPosition().y()<<" T "<<step->GetPostStepPoint()->GetGlobalTime()<<G4endl;
-	  //	track->SetTrackStatus(fStopAndKill);      
+	  //	track->SetTrackStatus(fStopAndKill);
 	}
       }
     }
@@ -93,40 +93,40 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   if(bpar->GetNPositronsPerBunch()==1){
     if(track->GetTrackID()==1){ //primary particle
       if(track->GetParticleDefinition() == G4Positron::PositronDefinition()){
-	if(step->GetPostStepPoint()->GetPhysicalVolume()!=0){ 
+	if(step->GetPostStepPoint()->GetPhysicalVolume()!=0){
 	  prevProc = lastProc;
 	  lastProc = step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName();
 	  if(lastProc == "annihil" ||lastProc == "eBrem") {
 	    nt++;
 	  }
 
-	  if(step->GetPreStepPoint()->GetPhysicalVolume()->GetName()=="Target" 
+	  if(step->GetPreStepPoint()->GetPhysicalVolume()->GetName()=="Target"
 	     && step->GetPostStepPoint()->GetPhysicalVolume()->GetName() == "Target" && nt>1) {
-	    G4cout << step->GetPreStepPoint()->GetPhysicalVolume()->GetName() 
-		   << "  ----  > " 
+	    G4cout << step->GetPreStepPoint()->GetPhysicalVolume()->GetName()
+		   << "  ----  > "
 		   << step->GetPostStepPoint()->GetPhysicalVolume()->GetName() << G4endl;
-	    G4cout << " Getting the momentum:   " << track->GetMomentum() 
+	    G4cout << " Getting the momentum:   " << track->GetMomentum()
 		   << "     "   << prevProc << "      " << lastProc << G4endl;
 	  }
 	  //Be somewhere
-	  // G4cout << step->GetPreStepPoint()->GetPhysicalVolume()->GetName() 
-	  // 	 << "  ----> " 
+	  // G4cout << step->GetPreStepPoint()->GetPhysicalVolume()->GetName()
+	  // 	 << "  ----> "
 	  // 	 << step->GetPostStepPoint()->GetPhysicalVolume()->GetName() << G4endl;
-	  if(step->GetPreStepPoint()->GetPhysicalVolume()->GetName()!="Target" 
+	  if(step->GetPreStepPoint()->GetPhysicalVolume()->GetName()!="Target"
 	     && step->GetPostStepPoint()->GetPhysicalVolume()->GetName() == "Target") {
 	    PositronMomentum = G4ThreeVector(-1000,-1000,-1000);
 	    nt = 0;
-	    
+
 	  }
 
-	  if(step->GetPreStepPoint()->GetPhysicalVolume()->GetName()=="Target" 
+	  if(step->GetPreStepPoint()->GetPhysicalVolume()->GetName()=="Target"
 	     && step->GetPostStepPoint()->GetPhysicalVolume()->GetName() != "Target") {
 	    // G4cout << " Getting the momentum:   " << track->GetMomentum() << G4endl;
 	    PositronMomentum = G4ThreeVector(track->GetMomentum());
 	  }
-	  
 
-	
+
+
     	  if(step->GetPostStepPoint()->GetPhysicalVolume()->GetName()=="Target") {
 	    //      G4cout<<"track->GetParticleDefinition() "<<track->GetParticleDefinition()<<G4endl;
 	    G4String lastProc = step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName();
@@ -164,21 +164,21 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //      track->SetTrackStatus(fStopAndKill);
 //    }
 //  }
-//  if(step->GetPostStepPoint()->GetPhysicalVolume()!=0){			
+//  if(step->GetPostStepPoint()->GetPhysicalVolume()!=0){
 //    if(step->GetPostStepPoint()->GetPhysicalVolume()->GetName()=="Tracker") {
 //      if(track->GetParticleDefinition()==G4Positron::PositronDefinition()||track->GetParticleDefinition()==G4Electron::ElectronDefinition()){
-//	if(track->GetParticleDefinition()->GetPDGCharge()==1.){ 
+//	if(track->GetParticleDefinition()->GetPDGCharge()==1.){
 //	  //  G4cout<<<<" " <<track->GetTrackID()<<G4endl;
-//	  PositronE = track->GetTotalEnergy();					    
-//          G4ThreeVector PositronDir = track->GetDynamicParticle()->GetMomentumDirection();  
-//	  G4cout<<PositronE<<" e+ "<<PositronDir<<G4endl;                                      
-//	  track->SetTrackStatus(fStopAndKill); 	       
+//	  PositronE = track->GetTotalEnergy();
+//          G4ThreeVector PositronDir = track->GetDynamicParticle()->GetMomentumDirection();
+//	  G4cout<<PositronE<<" e+ "<<PositronDir<<G4endl;
+//	  track->SetTrackStatus(fStopAndKill);
 //	}
 //	else if(track->GetParticleDefinition()->GetPDGCharge()==-1.){
-//	  //	  G4cout<<"electron "<<track->GetTotalEnergy()<<" " <<track->GetTrackID()<<G4endl;  
-//	  ElectronE = track->GetTotalEnergy();					    
-//	  G4ThreeVector ElectronDir = track->GetDynamicParticle()->GetMomentumDirection();  
-//	  G4cout<<ElectronE<<" e- "<<ElectronDir<<G4endl;                                      
+//	  //	  G4cout<<"electron "<<track->GetTotalEnergy()<<" " <<track->GetTrackID()<<G4endl;
+//	  ElectronE = track->GetTotalEnergy();
+//	  G4ThreeVector ElectronDir = track->GetDynamicParticle()->GetMomentumDirection();
+//	  G4cout<<ElectronE<<" e- "<<ElectronDir<<G4endl;
 //	  track->SetTrackStatus(fStopAndKill);
 //	}
 //      }
@@ -212,13 +212,13 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //	    //  G4double Mmiss2 = P4Miss[3]*P4Miss[3]-P4Miss[2]*P4Miss[2]-P4Miss[1]*P4Miss[1]-P4Miss[0]*P4Miss[0];
 //	    //  NChild++;
 //	    //	    if(ThetaGamma) G4cout<<"Theta Gamma " <<ThetaGamma<<" "<<GammaE<<" "<<BeamPartE<<" "<<GammaE+BeamPartE<<G4endl;
-//	    
+//
 //	  }
 //	}
 //      }
 //    }
 //  }
-  
+
 }
 
 G4int SteppingAction::ClassifyTrack(G4Track* track){
@@ -241,7 +241,7 @@ G4int SteppingAction::ClassifyTrack(G4Track* track){
 }
 
 void SteppingAction::SetPhysProc(float value){
-  ProcID=-1;
+  ProcID = value;
 }
 
 G4double SteppingAction::SetGammaAngle(G4ThreeVector GammaDir,G4ThreeVector BeamDir)
@@ -256,4 +256,3 @@ G4double SteppingAction::SetGammaAngle(G4ThreeVector GammaDir,G4ThreeVector Beam
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-

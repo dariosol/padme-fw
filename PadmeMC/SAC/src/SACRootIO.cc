@@ -58,7 +58,7 @@ void SACRootIO::Close()
 {;}
 
 //void SACRootIO::NewRun(G4int nRun, TFile* hfile)
-void SACRootIO::NewRun(G4int nRun, TFile* hfile, TDetectorInfo* detInfo)
+void SACRootIO::NewRun(G4int nRun, TDetectorInfo* detInfo)
 {
 
   fRunNumber = nRun;
@@ -135,7 +135,7 @@ void SACRootIO::SaveEvent(const G4Event* eventG4)
 	    G4double e_tot = 0.;
 	    for(G4int i=0;i<n_hit;i++) {
 	      TSACMCHit* hit = (TSACMCHit*)fEvent->AddHit();
-	      hit->SetChannelId((*sacHC)[i]->GetChannelId()); 
+	      hit->SetChannelId((*sacHC)[i]->GetChannelId());
 	      hit->SetTime((*sacHC)[i]->GetTime());
 	      hit->SetPosition(TVector3((*sacHC)[i]->GetPosX(),
 					(*sacHC)[i]->GetPosY(),
@@ -157,9 +157,9 @@ void SACRootIO::SaveEvent(const G4Event* eventG4)
 
     // Get list of digi collections in this event
     G4DCofThisEvent* theDC = eventG4->GetDCofThisEvent();
-    G4int nDC = theDC->GetNumberOfCollections();
+    // G4int nDC = theDC->GetNumberOfCollections();
 
-#warning: hard coded index of collection
+// #warning: hard coded index of collection
 
     for(G4int iDC=5; iDC<6; iDC++) {
       // Handle each collection type with the right method
@@ -173,7 +173,7 @@ void SACRootIO::SaveEvent(const G4Event* eventG4)
 	    G4double e_tot = 0.;
 	    for(G4int i=0;i<n_digi;i++) {
 	      TSACMCDigi* digi = (TSACMCDigi*)fEvent->AddDigi();
-	      digi->SetChannelId((*sacDC)[i]->GetChannelId()); 
+	      digi->SetChannelId((*sacDC)[i]->GetChannelId());
 	      digi->SetEnergy((*sacDC)[i]->GetEnergy());
 	      digi->SetTime((*sacDC)[i]->GetTime());
 	      digi->SetTHistoStart((*sacDC)[i]->GetQHistoStart());

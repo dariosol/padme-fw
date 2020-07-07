@@ -25,7 +25,7 @@
 //
 //
 // $Id: SteppingAction.hh,v 1.3 2014/04/30 08:57:38 veni Exp $
-// 
+//
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -45,17 +45,17 @@ class SteppingAction : public G4UserSteppingAction
 public:
   SteppingAction();
   ~SteppingAction(){};
-  
+
   void UserSteppingAction(const G4Step*);
   double GetPhysProc()   {return ProcID;};
   void   SetPhysProc(float value);
-  
+
   double GetPositronE()  {return BeamPartE;}; //energy of the primary after the first interaction
   double GetPrimE()      {return PrimE;};     //original energy of the primary
   double GetPositronX()  {return VertexPos[0];};
   double GetPositronY()  {return VertexPos[1];};
   double GetPositronZ()  {return VertexPos[2];};
-  
+
   double GetGammaEnergy(){return GammaE;};
   double SetGammaAngle(G4ThreeVector GammaDir,G4ThreeVector BeamDir);
   double GetGammaAngle(){return ThetaGamma;};
@@ -67,7 +67,7 @@ public:
   void DisableECalAnalysis() { fEnableECalAnalysis = 0; }
 
   G4ThreeVector & GetPositronMomentum(){ return PositronMomentum;  };
-  
+
 
 private:
   BeamParameters* bpar;
@@ -79,7 +79,7 @@ private:
 
   double ProcID;
   double PositronE;
-  double ElectronE;	
+  double ElectronE;
   double BeamPartE;
   double GammaE;
   double PrimE;
